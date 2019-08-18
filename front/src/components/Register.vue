@@ -4,11 +4,11 @@
 		<h1>Login</h1>
 		<form>
 		  Email:<br>
-		  <input type="text" name="email" v-model="email"><br>
+		  <input type="text" name="email" ref="email"><br>
 		  Login:<br>
-		  <input type="text" name="login" id="login"><br>
+		  <input type="text" name="login" ref="login"><br>
           Password:<br>
-		  <input type="password" name="password" id="password"><br>
+		  <input type="password" name="password" ref="password"><br>
 		  <input type="submit" value="Zarejestruj się" @click="Register()">
 		</form>
 	</div>
@@ -22,7 +22,7 @@ export default {
 	methods: {
 		Register() {
 			const vm = this;
-
+			alert(this.$refs.email.value)
 		}
 	}
 }
