@@ -3,7 +3,8 @@
 		<div id="header">
 			<router-link to="/boardList" tag="button">Tablice</router-link>
 			<router-link to="/testBoard" tag="img" id="nav-logo" src="http://localhost:8080/src/images/header-logo.png"></router-link>
-			<router-link to="/login" tag="button" id="login-btn">Login</router-link>
+			<router-link to="/register" tag="button" id="register-btn">Zarejestruj się</router-link>
+			<router-link to="/login" tag="button" id="login-btn">Zaloguj się</router-link>
 		</div>
 		<router-view id="test"></router-view>
     </div>
@@ -73,5 +74,10 @@ button {
 #login-btn {
 	position: absolute;
 	right: 0px;
+}
+#register-btn {
+	background-color: greenyellow;
+	position: absolute;
+	right: 120px;
 }
 </style>

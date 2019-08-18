@@ -6,25 +6,41 @@ import BoardList from './components/BoardList.vue';
 import Board from './components/Board.vue';
 import Login from './components/Login.vue';
 import TestBoard from './components/TestBoard.vue';
+import Register from './components/Register.vue'
 
 Vue.use(VueRouter);
 
 const routes = [
-	{ 	path: '/',
+	{
+		path: '/',
 		name: 'home',
-		component: Login },
-	{ 	path: '/boards/:id',
+		component: Login
+	},
+	{
+		path: '/boards/:id',
 		name: 'board',
-		component: Board },
-	{ 	path: '/boardList',
+		component: Board
+	},
+	{
+		path: '/boardList',
 		name: 'board-list',
-		component: BoardList },
-	{ 	path: '/login',
+		component: BoardList
+	},
+	{
+		path: '/login',
 		name: 'login',
-		component: Login },
-	{ 	path: '/testBoard',
+		component: Login
+	},
+	{
+		path: '/testBoard',
 		name: 'test-board',
-		component: TestBoard }
+		component: TestBoard
+	},
+	{
+		path: '/register',
+		name: 'register',
+		component: Register
+	}
 ]
 
 const router = new VueRouter({
@@ -32,9 +48,9 @@ const router = new VueRouter({
 })
 
 const app = new Vue({
-	data: function() {
-		return {boards: []};
+	data: function () {
+		return { boards: [] };
 	},
-    router,
-    render: h => h(App)
+	router,
+	render: h => h(App)
 }).$mount('#app-container');

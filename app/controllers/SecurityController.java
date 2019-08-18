@@ -33,7 +33,7 @@ public class SecurityController extends Controller {
         Login login = loginForm.get();
 
         User user = User.findByEmailAddressAndPassword(login.emailAddress, login.password);
-
+         
         if (user == null) {
             return unauthorized();
         }

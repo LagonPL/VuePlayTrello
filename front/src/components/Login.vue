@@ -7,7 +7,7 @@
 		  <input type="text" name="email"><br>
 		  Password:<br>
 		  <input type="password" name="password"><br>
-		  <input type="submit" value="Submit">
+		  <input type="submit" value="Zaloguj się">
 		</form>
 	</div>
 	</div>
