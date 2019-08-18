@@ -11,6 +11,7 @@
 		  <input type="password" name="password" v-model="password"><br>
 		  <input type="submit" value="Zarejestruj się" @click="Register()">
 		</form>
+		<button @click="Register()">Test</button>
 	</div>
 	</div>
 </template>
@@ -23,17 +24,22 @@ export default {
 		return {
 			login: "",
 			password: "",
-			email: ""
+			email: "",
 		}
 	},
 	methods: {
 		Register() {
 			const vm = this;
+			var log = this.login;
+			var pass = this.password;
+			var mail = this.email;
+			
 			axios.post('http://localhost:9000/api/user/register', {
-				emailAdress: this.login,
-				password: this.password,
-				fullName: this.login
+				emailAddress: log,
+				password: pass,
+				fullName: mail
 			})
+			console.log(log)
 		}
 	}
 }
