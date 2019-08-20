@@ -18,13 +18,14 @@
 
 <script>
 import axios from 'axios';
+import sha512 from 'js-sha512';
 
 export default {
 	data: function () {
 		return {
 			login: "",
 			password: "",
-			email: "",
+			email: ""
 		}
 	},
 	methods: {
@@ -33,11 +34,12 @@ export default {
 			var log = this.login;
 			var pass = this.password;
 			var mail = this.email;
-			
+			var shapassword = sha512.sha512(pass);
 			axios.post('http://localhost:9000/api/user/register', {
 				emailAddress: log,
 				password: pass,
-				fullName: mail
+				fullName: mail,
+				shaPassword: shapassword,
 			})
 			console.log(log)
 		}

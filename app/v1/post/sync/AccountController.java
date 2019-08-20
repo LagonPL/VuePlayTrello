@@ -15,20 +15,16 @@ public class AccountController extends Controller{
 
 
     public Result create() {
-        System.out.print("SIemaneczko1\n");
         Http.RequestBody body = request().body();
         JsonNode json = body.asJson();
         if (json == null){
             return badRequest(Helpers.createResponse(
                     "Expecting Json data", false));
         }
-        System.out.print(json.toString());
-        User user =  (User) Json.fromJson(json, User.class);
-        System.out.print(user.toString());
-        JsonNode jsonObject = Json.toJson(user);
         
-        User testuser = new User("kamil", "kamil", "kamil");
-        testuser.save();
+        User user =  (User) Json.fromJson(json, User.class);
+        JsonNode jsonObject = Json.toJson(user);
+        user.save();
         return created(Helpers.createResponse(jsonObject, true));
     }
 

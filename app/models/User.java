@@ -44,7 +44,7 @@ public class User extends BaseModel {
     @Constraints.Required
     @Constraints.MinLength(6)
     @Constraints.MaxLength(256)
-    @JsonIgnore
+    //@JsonIgnore
     private String password;
 
     public String getPassword() {
