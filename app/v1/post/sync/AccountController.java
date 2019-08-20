@@ -15,7 +15,7 @@ public class AccountController extends Controller{
 
 
     public Result create() {
-        
+        System.out.print("SIemaneczko1\n");
         Http.RequestBody body = request().body();
         JsonNode json = body.asJson();
         if (json == null){
@@ -26,9 +26,16 @@ public class AccountController extends Controller{
         User user =  (User) Json.fromJson(json, User.class);
         System.out.print(user.toString());
         JsonNode jsonObject = Json.toJson(user);
-        User test = user.findByEmailAddressAndPassword("kamil", "kamil");
-        System.out.print("\nxD" + test + "\n" );
+        
+        User testuser = new User("kamil", "kamil", "kamil");
+        testuser.save();
         return created(Helpers.createResponse(jsonObject, true));
+    }
+
+    public Result getList() {
+        List<User> users = User.find.all();
+        JsonNode jsonObject = Json.toJson(users);
+        return ok(Helpers.createResponse(jsonObject, true));
     }
 
 

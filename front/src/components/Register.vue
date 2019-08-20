@@ -9,7 +9,7 @@
 		  <input type="text" name="login" v-model="login"><br>
           Password:<br>
 		  <input type="password" name="password" v-model="password"><br>
-		  <input type="submit" value="Zarejestruj się" @click="Register()">
+		  <input type="submit" value="Zarejestruj się" @click="Register()" disabled>
 		</form>
 		<button @click="Register()">Test</button>
 	</div>

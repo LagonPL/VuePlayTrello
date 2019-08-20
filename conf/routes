@@ -54,7 +54,7 @@ DELETE   /api/task/delete/:id v1.post.sync.TaskController.delete(id : Integer)
 GET      /api/task/switchDone/:id  v1.post.sync.TaskController.switchDone(id : Integer)
 
 POST    /api/user/register    v1.post.sync.AccountController.create()
-
+GET    /api/user/getList    v1.post.sync.AccountController.getList()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
