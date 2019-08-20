@@ -9,23 +9,24 @@
 		  <input type="text" name="login" v-model="login"><br>
           Password:<br>
 		  <input type="password" name="password" v-model="password"><br>
-		  <input type="submit" value="Zarejestruj się" @click="Register()" disabled>
+		  <!-- <input type="submit" value="Zarejestruj się" @click="Register()" disabled> -->
 		</form>
-		<button @click="Register()">Test</button>
+		<button @click="Register()">Rejestruj</button>
+		<h1>{{ loginerror }}</h1>
 	</div>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
-import sha512 from 'js-sha512';
 
 export default {
 	data: function () {
 		return {
 			login: "",
 			password: "",
-			email: ""
+			email: "",
+			loginerror: "",
 		}
 	},
 	methods: {
@@ -34,13 +35,14 @@ export default {
 			var log = this.login;
 			var pass = this.password;
 			var mail = this.email;
-			var shapassword = sha512.sha512(pass);
 			axios.post('http://localhost:9000/api/user/register', {
 				emailAddress: log,
 				password: pass,
 				fullName: mail,
-				shaPassword: shapassword,
 			})
+			.catch(e => {
+				  this.loginerror = "Źle wypełnione pola!"
+				})
 			console.log(log)
 		}
 	}
