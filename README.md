@@ -1,3 +1,5 @@
+https://trello.com/b/IhaGTlIQ/wymagania-paw-2018
+
 Body requestow:
 
 {"CardViewModel":
