@@ -36,9 +36,9 @@ export default {
 			var pass = this.password;
 			var mail = this.email;
 			axios.post('http://localhost:9000/api/user/register', {
-				emailAddress: log,
+				emailAddress: mail,
 				password: pass,
-				fullName: mail,
+				fullName: log,
 			})
 			.catch(e => {
 				  this.loginerror = "Źle wypełnione pola!"
