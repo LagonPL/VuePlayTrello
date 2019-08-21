@@ -1,14 +1,28 @@
 <template>
   <div id="login-component">
     <div id="blue-bg-div">
-      <h1>Login</h1>
-      <form>
-        Email:
+      <h1>Logowanie</h1>
+      <form 
+        <input         
+          type="text"
+          name="email"
+          v-model="email"
+          maxlength="100"
+          size="25"
+          placeholder="Email"
+		  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        />
         <br />
-        <input type="text" name="email" v-model="email" />
-        <br />Password:
         <br />
-        <input type="password" name="password" v-model="password" />
+        <input
+          type="password"
+          name="password"
+          v-model="password"
+          maxlength="15"
+          size="20"
+          placeholder="Hasło"
+        />
+        <br />
         <br />
         <input type="submit" value="Zaloguj się" @click="Login()" />
       </form>
@@ -28,12 +42,23 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-	  user: [{ emailAddress: "", fullName: "" }],
-	  email: "",
-	  password: ""
+      user: [{ emailAddress: "", fullName: "" }],
+      email: "",
+      password: ""
     };
   },
   methods: {
+    show(group, type = "", text) {
+      this.$notify({
+        group,
+        title: `${type} notification`,
+        text,
+        type
+      });
+    },
+    clean(group) {
+      this.$notify({ group, clean: true });
+    },
     getList() {
       const vm = this;
       axios
@@ -56,12 +81,13 @@ export default {
           password: pass
         })
         .catch(e => {
-          this.loginerror = "Źle wypełnione pola!";
+          this.show("foo-css", "error", "Błędne dane");
         });
-      console.log(log);
-    }
-  }
-};
+      this.show("foo-css", "success", "Użytkownik ".concat(mail," zalogowany pomyślnie"));
+      
+	}
+}
+}
 </script>
 
 

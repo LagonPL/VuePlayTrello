@@ -7,7 +7,8 @@ import BoardList from './components/BoardList.vue';
 import Board from './components/Board.vue';
 import Login from './components/Login.vue';
 import TestBoard from './components/TestBoard.vue';
-import Register from './components/Register.vue'
+import Register from './components/Register.vue';
+
 
 
 Vue.use(VueRouter);

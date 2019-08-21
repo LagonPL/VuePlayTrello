@@ -6,16 +6,48 @@
 		<div id="header">
 			<router-link to="/boardList" tag="button">Tablice</router-link>
 			<router-link to="/testBoard" tag="img" id="nav-logo" src="http://localhost:8080/src/images/header-logo.png"></router-link>
-			<router-link to="/register" tag="button" id="register-btn">Zarejestruj się</router-link>
 			<router-link to="/login" tag="button" id="login-btn">Zaloguj się</router-link>
+			<router-link to="/register" tag="button" id="register-btn">Zarejestruj się</router-link>
+			<button @click="Logout()" tag="button" id="logout-btn">Wyloguj się</button>			
 		</div>
 		<router-view id="test"></router-view>
     </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-    // empty
+	data: function() {
+    return {
+      mail: ""
+    };
+  },
+  mounted: function () {
+		this.getUsername();
+	},
+	methods: {
+		getUsername() {
+			const vm = this;
+			axios.get('http://localhost:9000/api/user/username')
+			  .then(function (response) {
+				console.log(response.data);
+				if(response.data.body != 0) {
+					vm.$root.boards = response.data.body;
+				}
+			  })
+			  .catch(function (error) {
+				console.log(error);
+			  });
+		},
+		Logout() {
+			const vm = this;
+			axios.get('http://localhost:9000/api/user/logout')
+			  .catch(function (error) {
+				console.log(error);
+			  });
+		},
+	}
 }
 </script>
 <style>
@@ -75,11 +107,14 @@ button {
 
 #login-btn {
 	position: absolute;
-	right: 0px;
+	right: 120px;
+}
+#logout-btn {
+	position: absolute;
+	right: 220px;
 }
 #register-btn {
-	background-color: greenyellow;
 	position: absolute;
-	right: 120px;
+	right: 0px;
 }
 </style>

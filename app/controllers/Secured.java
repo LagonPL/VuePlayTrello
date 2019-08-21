@@ -1,5 +1,6 @@
 package controllers;
 
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import models.User;
 import play.mvc.Http.Context;
 import play.mvc.Result;
@@ -19,6 +20,8 @@ public class Secured extends Security.Authenticator {
         }
         return null;
     }
+
+
     @Override
     public Result onUnauthorized(Context ctx) {
         return unauthorized();

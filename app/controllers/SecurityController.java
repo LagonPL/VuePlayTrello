@@ -19,7 +19,8 @@ public class SecurityController extends Controller {
 
 
     public static User getUser() {
-        return (User)Http.Context.current().args.get("user");
+        User user = (User)Http.Context.current().args.get("user");
+        return user;
     }
 
     // returns an authToken
@@ -40,9 +41,11 @@ public class SecurityController extends Controller {
         }
         else {
             String authToken = user.createToken();
-            System.out.print(authToken + "\tauthToken test\n");
+            System.out.print(authToken + "\tauthToken testXXXXXXX\n");
             ObjectNode authTokenJson = Json.newObject();
             authTokenJson.put(AUTH_TOKEN, authToken);
+            session().clear();
+            session("email", login.emailAddress);
             response().setCookie(Http.Cookie.builder(AUTH_TOKEN, authToken).withSecure(ctx().request().secure()).build());
             return ok(authTokenJson);
         }

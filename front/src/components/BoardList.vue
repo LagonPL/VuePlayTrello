@@ -2,7 +2,7 @@
 	<div id="board-list-component" class="white-bg-div">
 		<div class="collection">
 			<h3 class="collection-title">Tablice</h3>
-			<div class="collection-item" v-for="board in this.$root.boards">
+			<div class="collection-item" v-for="board in this.$root.boards" v-bind:key="board">
 				<router-link :to="{ name: 'board', params: { id: board.id }}" tag="button" class="collection-item-btn">
 				<span class="board-title">{{ board.name }}</span>
 				<span class="star-btn">&#9959</span></router-link>

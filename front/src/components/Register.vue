@@ -1,22 +1,43 @@
 <template>
   <div id="login-component">
     <div id="blue-bg-div">
-      <h1>Login</h1>
+      <h1>Rejestracja</h1>
       <form>
-        Email:
         <br />
-        <input type="text" name="email" v-model="email" />
-        <br />Login:
+        <input
+          type="text"
+          name="email"
+          v-model="email"
+          maxlength="100"
+          size="25"
+          placeholder="Email"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        />
         <br />
-        <input type="text" name="login" v-model="login" />
-        <br />Password:
         <br />
-        <input type="password" name="password" v-model="password" />
+        <input
+          type="text"
+          name="login"
+          v-model="login"
+          maxlength="20"
+          size="25"
+          placeholder="Login"
+        />
+        <br />
+        <br />
+        <input
+          type="password"
+          name="password"
+          v-model="password"
+          maxlength="15"
+          size="20"
+          placeholder="Hasło"
+        />
         <br />
         <!-- <input type="submit" value="Zarejestruj się" @click="Register()" disabled> -->
       </form>
+      <br />
       <button @click="Register()">Rejestruj</button>
-      <h1>{{ loginerror }}</h1>
     </div>
   </div>
 </template>
@@ -34,24 +55,38 @@ export default {
     };
   },
   methods: {
-    show (group, type = '', text) {
+    show(group, type = "", text) {
       this.$notify({
         group,
         title: `${type} notification`,
         text,
-        type,
-      })
+        type
+      });
     },
-    clean (group) {
-      this.$notify({ group, clean: true })
+    clean(group) {
+      this.$notify({ group, clean: true });
+    },
+    validate(email, login, password) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!re.test(email) && login.length == 0 && password.length == 0) {
+        this.show("foo-css", "error", "Błędne dane");
+      } else if (!re.test(email)) {
+        this.show("foo-css", "error", "Błędny email");
+      } else if (login.length == 0) {
+        this.show("foo-css", "error", "Błędny login");
+      } else if (password.length == 0) {
+        this.show("foo-css", "error", "Błędne hasło");
+      }
     },
     Register() {
       const vm = this;
       var log = this.login;
       var pass = this.password;
-	  var mail = this.email;
-	  var child = this.$refs.profile;
-      if (pass.length != 0 && log.length != 0 && mail.length != 0) {
+      var mail = this.email;
+      var child = this.$refs.profile;
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (pass.length != 0 && log.length != 0 && mail.length != 0 && re.test(mail)) {
         axios
           .post("http://localhost:9000/api/user/register", {
             emailAddress: mail,
@@ -59,10 +94,15 @@ export default {
             fullName: log
           })
           .catch(e => {
-            this.show('foo-css', 'error',"Użytkownik istnieje");
+            this.show("foo-css", "error", "Taki użytkownik już istnieje");
           });
+        this.show(
+          "foo-css",
+          "success",
+          "Utworzono użytkownika dla ".concat(this.email)
+        );
       } else {
-        this.show('foo-css', 'error',"Błędne dane")
+        this.validate(mail, log, pass);
       }
       console.log(log);
     }
