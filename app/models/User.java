@@ -123,7 +123,9 @@ public class User extends BaseModel {
 
     public static User findByEmailAddressAndPassword(String emailAddress, String password) {
         // todo: verify this query is correct.  Does it need an "and" statement?
-        return Ebean.find(User.class).where().eq("emailAddress", emailAddress.toLowerCase()).eq("shaPassword", getSha512(password)).findUnique();
+        User user = Ebean.find(User.class).where().eq("emailAddress", emailAddress.toLowerCase()).eq("shaPassword", getSha512(password)).findUnique();
+        //System.out.println(user.toString());
+        return user;
     }
 
 }

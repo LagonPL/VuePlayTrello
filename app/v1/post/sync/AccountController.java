@@ -1,6 +1,8 @@
 package v1.post.sync;
 
 import Helpers.Helpers;
+import controllers.FrontController;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Board;
 import models.User;
@@ -25,6 +27,7 @@ public class AccountController extends Controller{
         User user =  (User) Json.fromJson(json, User.class);
         JsonNode jsonObject = Json.toJson(user);
         user.save();
+        //return redirect(controllers.FrontController.index());
         return created(Helpers.createResponse(jsonObject, true));
     }
 

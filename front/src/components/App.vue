@@ -1,5 +1,8 @@
 <template>
     <div id="app">
+		<notifications group="foo-css"
+                   position="bottom left"
+                   :speed="500" />
 		<div id="header">
 			<router-link to="/boardList" tag="button">Tablice</router-link>
 			<router-link to="/testBoard" tag="img" id="nav-logo" src="http://localhost:8080/src/images/header-logo.png"></router-link>
@@ -15,7 +18,6 @@ export default {
     // empty
 }
 </script>
-
 <style>
 body {
 	margin: 0;
