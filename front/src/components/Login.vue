@@ -10,7 +10,7 @@
           maxlength="100"
           size="25"
           placeholder="Email"
-		  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+		      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         />
         <br />
         <br />
@@ -51,7 +51,6 @@ export default {
     show(group, type = "", text) {
       this.$notify({
         group,
-        title: `${type} notification`,
         text,
         type
       });
@@ -82,9 +81,8 @@ export default {
         })
         .catch(e => {
           this.show("foo-css", "error", "Błędne dane");
-        });
-      this.show("foo-css", "success", "Użytkownik ".concat(mail," zalogowany pomyślnie"));
-      
+        });   
+        this.show("foo-css", "success", "Witaj ".concat(mail)); //to pokazuje nawet jak wpiszesz złe hasło        
 	}
 }
 }

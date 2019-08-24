@@ -51,11 +51,14 @@ public class SecurityController extends Controller {
         }
     }
 
-    @Security.Authenticated(Secured.class)
+    //@Security.Authenticated(Secured.class)
     public Result logout() {
         response().discardCookie(AUTH_TOKEN);
-        getUser().deleteAuthToken();
+        //var result = result.discardingCookies(DiscardingCookie("PLAY_SESSION"), DiscardingCookie("msbUserId"));
+        //getUser().deleteAuthToken();
         return redirect("/");
+       
+         
     }
 
     public static class Login {

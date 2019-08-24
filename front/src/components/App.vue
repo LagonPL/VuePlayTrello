@@ -8,7 +8,8 @@
 			<router-link to="/testBoard" tag="img" id="nav-logo" src="http://localhost:8080/src/images/header-logo.png"></router-link>
 			<router-link to="/login" tag="button" id="login-btn">Zaloguj się</router-link>
 			<router-link to="/register" tag="button" id="register-btn">Zarejestruj się</router-link>
-			<button @click="Logout()" tag="button" id="logout-btn">Wyloguj się</button>			
+			<button @click="Logout()" tag="button" id="logout-btn">Wyloguj się</button>
+			<!-- <router-link to="/login" @click="Logout()" tag="button" id="logout-btn">Wyloguj się2</router-link>			 -->
 		</div>
 		<router-view id="test"></router-view>
     </div>
@@ -45,7 +46,8 @@ export default {
 			axios.get('http://localhost:9000/api/user/logout')
 			  .catch(function (error) {
 				console.log(error);
-			  });
+			  })
+
 		},
 	}
 }

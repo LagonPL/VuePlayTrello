@@ -58,7 +58,6 @@ export default {
     show(group, type = "", text) {
       this.$notify({
         group,
-        title: `${type} notification`,
         text,
         type
       });

@@ -10,6 +10,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+
+import java.net.HttpCookie;
 import java.util.List;
 import controllers.*;
 
@@ -41,9 +43,12 @@ public class AccountController extends Controller{
     }
 
     public Result getMail () {
-        //string mail = getUsername();
-        User user = SecurityController.getUser();
-        System.out.println(user.getEmailAddress()+ "\n");
+        //String mail = Secured.getUsername();
+        String[] authTokenHeaderValues = request().headers().get(SecurityController.AUTH_TOKEN_HEADER);
+        Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
+        System.out.println(cookie.value());
+        User user = models.User.findByAuthToken(cookie.value());
+        
         return ok(user.getEmailAddress());
     }
 
