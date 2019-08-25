@@ -8,8 +8,10 @@ import Board from './components/Board.vue';
 import Login from './components/Login.vue';
 import TestBoard from './components/TestBoard.vue';
 import Register from './components/Register.vue';
-
-
+import CreateBoard from './components/CreateBoard.vue';
+import 'bootstrap';
+import Jquery from 'jquery';
+import Popper from 'popper.js';
 
 Vue.use(VueRouter);
 Vue.use(Notifications);
@@ -44,6 +46,11 @@ const routes = [
 		path: '/register',
 		name: 'register',
 		component: Register
+	},
+	{
+		path: '/createboard',
+		name: 'createboard',
+		component: CreateBoard
 	}
 ]
 

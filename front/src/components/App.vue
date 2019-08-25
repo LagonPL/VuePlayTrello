@@ -135,4 +135,5 @@ button {
   position: absolute;
   right: 0px;
 }
+@import'~bootstrap/dist/css/bootstrap.css'
 </style>

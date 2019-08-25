@@ -7,12 +7,12 @@ import io.ebean.Finder;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-public class Status{
+public class AccountStatus{
 
     public String CurrentUser;
     public Boolean IsLogged;
 
-    public Status(String mail, Boolean logged) {
+    public AccountStatus(String mail, Boolean logged) {
         this.CurrentUser = mail;
         this.IsLogged = logged;
     }

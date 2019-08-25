@@ -56,7 +56,7 @@
 				<div id="activityBlock" class="Block">
 					<h3 class="BlockTitle">Aktywność</h3>
 					<div class="Comment" v-for="(comment, index) in selectedCard.comments">
-						<h3 class="CommentAuthor">User</h3>
+						<h3 class="CommentAuthor">{{ comment.userMail }}</h3>
 						<textarea class="CommentTextArea CommentContent" readonly>{{ comment.text }}</textarea>
 						<div>
 							<button class="CommentButton">Edytuj</button>

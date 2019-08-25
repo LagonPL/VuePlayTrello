@@ -6,7 +6,7 @@ import controllers.FrontController;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Board;
 import models.User;
-import models.Status;
+import models.AccountStatus;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -51,7 +51,7 @@ public class AccountController extends Controller{
             return ok();
         }
         else{
-            Status status = new Status(user.getEmailAddress(), true); //umiesz konstruktor?
+            AccountStatus status = new AccountStatus(user.getEmailAddress(), true); 
             JsonNode jsonObject = Json.toJson(status);
             return ok(Helpers.createResponse(jsonObject, true));
         }

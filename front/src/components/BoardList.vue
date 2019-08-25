@@ -8,7 +8,7 @@
 				<span class="star-btn">&#9959</span></router-link>
 			</div>
 			<div class="collection-item">
-				<button id="create-board-btn" class="collection-item-btn" @click="createNewBoard()">Utwórz nową tablicę...</button>
+				<router-link to="/createboard" id="create-board-btn" class="collection-item">Utwórz nową tablicę...</router-link>
 			</div>
 		</div>
 	</div>

@@ -12,8 +12,8 @@
           size="25"
           placeholder="Email"
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          class="form-control col-md-3"
         />
-        <br />
         <br />
         <input
           type="text"
@@ -22,8 +22,8 @@
           maxlength="20"
           size="25"
           placeholder="Login"
+          class="form-control col-md-3"
         />
-        <br />
         <br />
         <input
           type="password"
@@ -32,12 +32,12 @@
           maxlength="15"
           size="20"
           placeholder="Hasło"
+          class="form-control col-md-3"
         />
         <br />
         <!-- <input type="submit" value="Zarejestruj się" @click="Register()" disabled> -->
       </form>
-      <br />
-      <button @click="Register()">Rejestruj</button>
+      <button @click="Register()" class="btn btn-light">Rejestruj</button>
     </div>
   </div>
 </template>

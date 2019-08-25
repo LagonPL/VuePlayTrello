@@ -11,8 +11,8 @@
           size="25"
           placeholder="Email"
 		      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          class="form-control col-md-3"
         />
-        <br />
         <br />
         <input
           type="password"
@@ -21,24 +21,24 @@
           maxlength="15"
           size="20"
           placeholder="Hasło"
+          class="form-control col-md-3"
         />
         <br />
-        <br />
-        <input type="submit" value="Zaloguj się" @click="Login()"/>
+        <input type="submit" value="Zaloguj się" @click="Login()" class="btn btn-light"/>
       </form>
     </div>
     <br />
-    <button @click="getList()">Lista userów</button>
+    <button @click="getList()" class="btn btn-light">Lista userów</button>
     <div class="collection-item" v-for="user in this.users">
-      {{ user.fullName }}
-      {{ user.emailAddress }}
+      <ul>{{ user.fullName }}
+      {{ user.emailAddress }}</ul>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import Bootstrap from 'bootstrap';
 export default {
   data: function() {
     return {
@@ -79,9 +79,9 @@ export default {
           password: pass
         })
         .then(response => {
-          location.reload(true);
-        this.$forceUpdate(); //kto mowi że to u mnie działa
-        this.show("foo-css", "success", "Witaj ".concat(mail)); //to pokazuje nawet jak wpiszesz złe hasło
+        location.reload(true);
+        //this.$forceUpdate(); 
+        this.show("foo-css", "success", "Witaj ".concat(mail));
 			  })
         .catch(e => {
           this.show("foo-css", "error", "Błędne dane");

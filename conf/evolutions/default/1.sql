@@ -29,6 +29,7 @@ create table comment (
   id                            integer auto_increment not null,
   name                          varchar(255),
   text                          varchar(255),
+  user_mail                     varchar(255),
   parent_card_id                integer,
   constraint pk_comment primary key (id)
 );

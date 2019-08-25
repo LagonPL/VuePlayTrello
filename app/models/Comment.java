@@ -14,6 +14,7 @@ public class Comment extends BaseModel {
     @Nullable
     User ownerUser;
     String text;
+    String userMail;
     @ManyToOne
     @JsonBackReference
     Card parentCard;
@@ -22,6 +23,7 @@ public class Comment extends BaseModel {
         this.ownerUser = ownerUser;
         this.text = text;
         this.parentCard = parentCard;
+        this.userMail = ownerUser.getEmailAddress();
         this.name = name;
     }
 
@@ -37,6 +39,15 @@ public class Comment extends BaseModel {
 
     public void setOwnerUser(@Nullable User ownerUser) {
         this.ownerUser = ownerUser;
+    }
+
+    public String getUserMail() {
+
+        return userMail;
+    }
+
+    public void setUserMail(String userMail) {
+        this.userMail = userMail;
     }
 
     public String getText() {

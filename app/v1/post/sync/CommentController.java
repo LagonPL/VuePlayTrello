@@ -6,9 +6,14 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.libs.Json;
+import models.Board;
+import models.User;
+import models.Status;
 import viewmodels.CommentViewModel;
 import models.Card;
 import models.Comment;
+import java.net.HttpCookie;
+import controllers.*;
 
 public class CommentController extends Controller {
 
@@ -27,8 +32,10 @@ public class CommentController extends Controller {
         if(parentCard == null){
             return notFound(Helpers.createResponse("Card not found", false));
         }
+        Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
+        User user = models.User.findByAuthToken(cookie.value());
 
-        Comment comment = new Comment(null/*no users yet*/, tempComment.text, parentCard, tempComment.name);
+        Comment comment = new Comment(user, tempComment.text, parentCard, tempComment.name);
         comment.save();
         JsonNode jsonObject = Json.toJson(comment);
         return created(Helpers.createResponse(jsonObject, true));
