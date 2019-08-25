@@ -6,6 +6,7 @@ import controllers.FrontController;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Board;
 import models.User;
+import models.Status;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -43,13 +44,17 @@ public class AccountController extends Controller{
     }
 
     public Result getMail () {
-        //String mail = Secured.getUsername();
-        String[] authTokenHeaderValues = request().headers().get(SecurityController.AUTH_TOKEN_HEADER);
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
-        System.out.println(cookie.value());
         User user = models.User.findByAuthToken(cookie.value());
-        
-        return ok(user.getEmailAddress());
+        System.out.println(user.getEmailAddress());
+        if(user.getEmailAddress().isEmpty()){
+            return ok();
+        }
+        else{
+            Status status = new Status(user.getEmailAddress(), true); //umiesz konstruktor?
+            JsonNode jsonObject = Json.toJson(status);
+            return ok(Helpers.createResponse(jsonObject, true));
+        }
     }
 
 
