@@ -2,13 +2,15 @@
 	<div id="board-list-component" class="white-bg-div">
 		<div class="collection">
 			<h3 class="collection-title">Tablice</h3>
-			<div class="collection-item" v-for="board in this.$root.boards" v-bind:key="board">
-				<router-link :to="{ name: 'board', params: { id: board.id }}" tag="button" class="collection-item-btn">
-				<span class="board-title">{{ board.name }}</span>
-				<span class="star-btn">&#9959</span></router-link>
-			</div>
-			<div class="collection-item">
-				<router-link to="/createboard" id="create-board-btn" class="collection-item">Utwórz nową tablicę...</router-link>
+				<div class="collection-item" v-for="(board, leng) in this.$root.boards">
+					<router-link :to="{ name: 'board', params: { id: leng + 1 }}" tag="button" class="collection-item-btn">
+					<span class="board-title">{{ board.name }} - {{board.ownerUser}}</span>
+					<!-- <button class="star-btn" >&#9760</button> -->
+					</router-link>
+
+				</div>
+			<div class="collection-item" v-if="this.status.IsLogged">
+				<router-link to="/createboard" id="create-board-btn" class="collection-item" >Utwórz nową tablicę...</router-link>
 			</div>
 		</div>
 	</div>
@@ -20,6 +22,7 @@ import axios from 'axios';
 export default {
 	data: function () {
 		return {
+			status: "",
 			boards: [
 				{name : 'Tab1',
 				 listts: [
@@ -136,21 +139,34 @@ export default {
 	},
 	mounted: function () {
 		this.getAllBoards();
+		this.getUsername();
 	},
 	methods: {
 		getAllBoards() {
 			const vm = this;
+			var dlugosc;
 			axios.get('http://localhost:9000/api/boards/getAll')
 			  .then(function (response) {
 				console.log(response.data);
 				if(response.data.body != 0) {
-					vm.$root.boards = response.data.body;
+					vm.$root.boards = response.data.body;					
+					console.log(vm.$root.boards);
 				}
 			  })
 			  .catch(function (error) {
 				console.log(error);
 			  });
+
 		},
+		async getUsername() {
+      axios.get("http://localhost:9000/api/user/username")
+        .then(response => {
+          console.log(response.data.body);
+          this.status = response.data.body;
+          console.log(this.body.CurrentUser);
+        })
+        .catch(function(error) {});
+    },
 		createNewBoard() {
 			const vm = this;
 			var newTitle = prompt("Podaj nazwę nowej tablicy");
@@ -188,7 +204,7 @@ export default {
 
 .star-btn {
 	font-size: 30px;
-	color: white;
+	color: black;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -200,7 +216,7 @@ div.collection-item:hover .star-btn {
 }
 
 .star-btn:hover {
-	color: yellow;
+	color: black;
 }
 
 .white-bg-div {

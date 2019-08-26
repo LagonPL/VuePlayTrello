@@ -37,18 +37,18 @@
 					<h3 class="BlockTitle">Lista zadań</h3>
 					<p class="CommentAuthor">{{ percentDone }}%</p>
 					<div class="Task" v-for="(task, index) in selectedCard.tasks">
-						<input type="checkbox" v-model="task.done" @click="switchTaskStatus(task)" >
+						<input type="checkbox" v-model="task.done" @click="switchTaskStatus(task)" v-if="this.status.IsLogged" >
 						<span style="cursor:pointer" @click="editTask(task)">{{ task.name }}</span></input>
 						<button class="Button ButtonCancel"
 						@click="deleteTask(task.id, index)"
-						style="display:inline">Usuń...</button>
+						style="display:inline" v-if="this.status.IsLogged">Usuń...</button>
 					</div>
 					<div class="DescriptionActionButtonsDiv">
 						<button	class="Button ButtonSave"
-						 @click="addTask">Dodaj</button>
+						 @click="addTask" v-if="this.status.IsLogged">Dodaj</button>
 					</div>
 				</div>
-				<div id="addCommentBlock" class="Block">
+				<div id="addCommentBlock" class="Block" v-if="this.status.IsLogged">
 					<h3 class="BlockTitle">Dodaj komentarz</h3>
 					<textarea class="CommentTextArea" v-model="newCommentText" type="text"></textarea>
 					<button class="Button ButtonSave" @click="addComment">Zapisz</button>
@@ -82,13 +82,14 @@
 					<button class="ActionButton">Subskrybuj</button>
 					<button class="ActionButton" v-if="selectedCard.status == 'ARCHIVED'" @click="dearchiveCard">Przywróć</button>
 					<button class="ActionButton" v-if="selectedCard.status == 'ARCHIVED'" @click="archiveCard">Usuń</button>
-					<button class="ActionButton" v-else @click="archiveCard">Zarchiwizuj</button>
+					<button class="ActionButton" v-else @click="archiveCard" disabled>Zarchiwizuj</button>
 			</div>
 		</div>
 	</div>
 	<div id="board">
 		<div id="board-buttons">
-		<button id="boardTitle" @click="renameBoard()">{{currentBoard.name}}</button><button id="fav-btn">&#9959</button>
+		<button id="boardTitle" @click="renameBoard()">{{currentBoard.name}}</button>
+		<button id="fav-btn" @click="deleteBoard(currentBoard.id)"><span class="glyphicon glyphicon-trash"></span></button>
 		</div>
 		<div id="list" v-for="(list, listIndex) in currentBoard.listts" v-if="list.status == 'VISIBLE'">
 			<p class="listName">
@@ -112,6 +113,7 @@ import axios from 'axios';
 export default {
 	data: function () {
 		return {
+			status: "",
 			currentBoard: this.$root.boards[this.$route.params.id - 1],
 			showCardDetails: false,
 			selectedCard: {
@@ -128,6 +130,9 @@ export default {
 			newTaskName: ""
 		}
 	},
+	mounted: function() {
+    this.getUsername();
+  	},
 	computed: {
 		percentDone: function () {
 			if(this.selectedCard.tasks != null && this.selectedCard.tasks.length > 0) {
@@ -146,6 +151,14 @@ export default {
 		}
 	},
 	methods: {
+		async getUsername() {
+			axios.get("http://localhost:9000/api/user/username")
+    		.then(response => {
+          		console.log(currentBoard);
+          		this.status = response.data.body;
+       		})
+        	.catch(function(error) {});
+    	},
 		openCard: function(card, list) {
 			this.selectedCard = card;
 			this.selectedCardListName = list.name;
@@ -405,6 +418,19 @@ export default {
 			} else {
 				alert("Nazwa nie może być pusta!");
 			}
+		},
+		deleteBoard: function(id) {
+			const vm = this;
+			axios.delete('http://localhost:9000/api/boards/delete/' + id)
+			  .then(function (response) {
+				console.log(response.data);
+				vm.selectedCard.tasks.splice(index, 1);
+			  })
+			  .catch(function (error) {
+				console.log(error);
+			  });
+			  this.$router.go(-1)
+			  //router.push({ path: `/boardlist/` })
 		}
 	}
 }
@@ -620,7 +646,7 @@ export default {
 		font-size: 22px;
 		padding: 0 10px;
 		margin: 0;
-		color: #f6f6f6;
+		color: white;
 		border-radius: 3px;
 	}
 	

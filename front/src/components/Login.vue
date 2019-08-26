@@ -79,7 +79,7 @@ export default {
           password: pass
         })
         .then(response => {
-        location.reload(true);
+          location.reload(true);
         //this.$forceUpdate(); 
         this.show("foo-css", "success", "Witaj ".concat(mail));
 			  })

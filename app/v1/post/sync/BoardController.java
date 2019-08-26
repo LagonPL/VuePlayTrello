@@ -7,28 +7,37 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-
+import java.net.HttpCookie;
 import java.util.List;
+import controllers.*;
+import java.util.List;
+import models.Board;
+import models.User;
+import models.AccountStatus;
+import java.util.function.Predicate;
 
 public class BoardController extends Controller{
-
 
 
     public Result create() {
         Http.RequestBody body = request().body();
         JsonNode json = body.asJson();
-
+        System.out.println(json.toString() + "\ntest\n");
         if (json == null){
             return badRequest(Helpers.createResponse(
                     "Expecting Json data", false));
         }
         Board board=  (Board) Json.fromJson(json, Board.class);
+        Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
+        User user = models.User.findByAuthToken(cookie.value());
+        board.setOwnerUser(user);
         board.save();
         JsonNode jsonObject = Json.toJson(board);
         return created(Helpers.createResponse(jsonObject, true));
     }
 
-    public Result retrive (int id) {
+    public Result retrive(int id) {
+        System.out.println(Integer.toString(id));
         Board board = Board.find.byId(id);
         if(board ==null) {
             return notFound(Helpers.createResponse("Board with id" + id + "Not found", false));
@@ -59,6 +68,7 @@ public class BoardController extends Controller{
     }
 
     public Result delete(int id) {
+        System.out.println(Integer.toString(id));
         Board board = Board.find.byId(id);
         if(board==null) {
             return  notFound(Helpers.createResponse("Board not found",  false));
@@ -72,6 +82,15 @@ public class BoardController extends Controller{
 
     public Result getAll() {
         List<Board> boards = Board.find.all();
+        Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
+        User user = models.User.findByAuthToken(cookie.value());
+        for(int i = 0; i < boards.size(); i++){
+            if(boards.get(i).getOwnerUser().getEmailAddress() == user.getEmailAddress()){
+            boards.remove(i);
+            }     
+        }
+        
+
         JsonNode jsonObject = Json.toJson(boards);
         return ok(Helpers.createResponse(jsonObject, true));
     }

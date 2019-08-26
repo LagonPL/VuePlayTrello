@@ -10,8 +10,8 @@ import TestBoard from './components/TestBoard.vue';
 import Register from './components/Register.vue';
 import CreateBoard from './components/CreateBoard.vue';
 import 'bootstrap';
-import Jquery from 'jquery';
-import Popper from 'popper.js';
+import 'jquery';
+import 'popper.js';
 
 Vue.use(VueRouter);
 Vue.use(Notifications);

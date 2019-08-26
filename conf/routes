@@ -4,12 +4,7 @@
 
 # Home page
 GET     /                       controllers.FrontController.index()
-#GET     /boards                 controllers.BoardController.index()
-#GET     /boards/create          controllers.BoardController.create()
-#POST    /boards/create         controllers.BoardController.save()
-#GET     /boards/:id             controllers.BoardController.show(id : Integer)
-#GET     /boards/edit/:id        controllers.BoardController.edit(id : Integer)
-#POST    /boards/edit           controllers.BoardController.update()
+
 
 
 
