@@ -26,8 +26,11 @@ public class Board extends BaseModel {
     @ManyToOne
     @JsonBackReference
     User ownerUser;
+    public String userList;
     Status status;
-    Boolean isPrivate = false;
+    boolean isPrivate;
+
+
 
     public Board() {
         this.status=Status.VISIBLE;
@@ -51,6 +54,15 @@ public class Board extends BaseModel {
         this.listts = listts;
     }
 
+    @Nullable
+    public String getUserList() {
+        return userList;
+    }
+
+    public void setUserList(@Nullable String userList) {
+        this.userList = userList;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -59,11 +71,11 @@ public class Board extends BaseModel {
         this.status = status;
     }
 
-    public Boolean getPrivate() {
+    public boolean getPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(Boolean aPrivate) {
+    public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
 

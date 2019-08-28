@@ -89,7 +89,8 @@
 	<div id="board">
 		<div id="board-buttons">
 		<button id="boardTitle" @click="renameBoard()">{{currentBoard.name}}</button>
-		<button id="fav-btn" @click="deleteBoard(currentBoard.id)"><span class="glyphicon glyphicon-trash"></span></button>
+		<button id="fav-btn" @click="deleteBoard(currentBoard.id)"><span class="glyphicon glyphicon-remove"></span></button>
+		<button id="fav-btn" @click="addUser(currentBoard.id)"><span class="glyphicon glyphicon-user"></span></button>
 		</div>
 		<div id="list" v-for="(list, listIndex) in currentBoard.listts" v-if="list.status == 'VISIBLE'">
 			<p class="listName">
@@ -114,6 +115,7 @@ export default {
 	data: function () {
 		return {
 			status: "",
+			eventlog: "",
 			currentBoard: this.$root.boards[this.$route.params.id - 1],
 			showCardDetails: false,
 			selectedCard: {
@@ -127,11 +129,13 @@ export default {
 			newCommentText: "",
 			defaultTaskName: "Dodaj element...",
 			inProgressTaskName: "",
-			newTaskName: ""
+			newTaskName: "",
+			addUserToBoard: "Dodaj użytkownika do tablicy"
 		}
 	},
 	mounted: function() {
-    this.getUsername();
+	this.getUsername();
+	this.getEventLog(this.$root.boards[this.$route.params.id - 1].id);
   	},
 	computed: {
 		percentDone: function () {
@@ -154,8 +158,16 @@ export default {
 		async getUsername() {
 			axios.get("http://localhost:9000/api/user/username")
     		.then(response => {
-          		console.log(currentBoard);
+          		console.log(response.data.body);
           		this.status = response.data.body;
+       		})
+        	.catch(function(error) {});
+		},
+		getEventLog: function(boardId) {
+			axios.get('http://localhost:9000/api/boards/eventlog/' + boardId)
+    		.then(response => {
+          		console.log(response.data.body);
+          		this.eventlog = response.data.body;
        		})
         	.catch(function(error) {});
     	},
@@ -163,6 +175,26 @@ export default {
 			this.selectedCard = card;
 			this.selectedCardListName = list.name;
 			this.showCardDetails = true;
+		},
+		addUser: function(boardId){
+			const vm = this;
+			var newMail = prompt("Podaj mail użytkownika");
+			if(newMail.length != 0) {
+				axios.post('http://localhost:9000/api/boards/adduser', {
+				  UserViewModel: {
+					parentBoard: boardId,
+					mail: newMail
+				  }
+				})
+				.then(response => {
+					console.log(response);
+				})
+				.catch(e => {
+				  console.log(e);
+				})
+			} else {
+				alert("Nazwa nie może być pusta!");
+			}
 		},
 		addList: function(boardId) {
 			const vm = this;
@@ -429,8 +461,7 @@ export default {
 			  .catch(function (error) {
 				console.log(error);
 			  });
-			  this.$router.go(-1)
-			  //router.push({ path: `/boardlist/` })
+			 this.$router.push('/boardList');
 		}
 	}
 }

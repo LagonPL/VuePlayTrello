@@ -8,7 +8,7 @@ import play.mvc.Result;
 import play.libs.Json;
 import models.Board;
 import models.User;
-import models.Status;
+import models.AccountStatus;
 import viewmodels.CommentViewModel;
 import models.Card;
 import models.Comment;
@@ -34,7 +34,6 @@ public class CommentController extends Controller {
         }
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         User user = models.User.findByAuthToken(cookie.value());
-
         Comment comment = new Comment(user, tempComment.text, parentCard, tempComment.name);
         comment.save();
         JsonNode jsonObject = Json.toJson(comment);

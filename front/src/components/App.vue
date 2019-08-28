@@ -60,9 +60,10 @@ export default {
         .catch(function(error) {
           console.log(error);
         })
-        .then(response => {
+        .then(response => {          
+          this.$router.push('/login');
           location.reload(true);
-          this.show("foo-css", "success", "Żegnaj ".concat(mail)); //to pokazuje nawet jak wpiszesz złe hasło
+          //this.show("foo-css", "success", "Żegnaj ".concat(email));
         });
     }
   }

@@ -10,11 +10,14 @@ GET     /                       controllers.FrontController.index()
 
 GET      /api/boards/getAll     v1.post.sync.BoardController.getAll()
 GET     /api/boards/get/:id    v1.post.sync.BoardController.retrive(id : Integer)
+GET     /api/boards/eventlog/:id    v1.post.sync.BoardController.geteventlog(id : Integer)
 POST     /api/boards/add        v1.post.sync.BoardController.create()
 PUT      /api/boards/update     v1.post.sync.BoardController.update()
 DELETE   /api/boards/delete/:id v1.post.sync.BoardController.delete(id : Integer)
 GET   /api/boards/archive/:id v1.post.sync.BoardController.archive(id : Integer)
 GET   /api/boards/dearchive/:id v1.post.sync.BoardController.deArchive(id : Integer)
+POST    /api/boards/adduser     v1.post.sync.BoardController.addUser()
+
 
 GET      /api/listt/getAll      v1.post.sync.ListController.getAll()
 GET     /api/listt/get/:id     v1.post.sync.ListController.retrive(id : Integer)

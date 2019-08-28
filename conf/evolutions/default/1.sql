@@ -7,8 +7,9 @@ create table board (
   id                            integer auto_increment not null,
   name                          varchar(255),
   owner_user_id                 integer,
+  user_list                     varchar(255),
   status                        varchar(1),
-  is_private                    boolean,
+  is_private                    boolean default false not null,
   constraint ck_board_status check ( status in ('A','D','V')),
   constraint pk_board primary key (id)
 );
@@ -32,6 +33,14 @@ create table comment (
   user_mail                     varchar(255),
   parent_card_id                integer,
   constraint pk_comment primary key (id)
+);
+
+create table event_log (
+  id                            integer auto_increment not null,
+  name                          varchar(255),
+  text                          varchar(255),
+  board_id                      integer not null,
+  constraint pk_event_log primary key (id)
 );
 
 create table listt (
@@ -105,6 +114,8 @@ drop table if exists board;
 drop table if exists card;
 
 drop table if exists comment;
+
+drop table if exists event_log;
 
 drop table if exists listt;
 

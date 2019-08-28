@@ -30,8 +30,6 @@ public class AccountController extends Controller{
         
         User user =  (User) Json.fromJson(json, User.class);
         JsonNode jsonObject = Json.toJson(user);
-        System.out.print(user.getPassword() + "\tgetPasswordn test\n");
-        System.out.print(user.getSha512(user.getPassword()).toString() + "\tagetSha512 test\n");
         user.save();
         //return redirect(controllers.FrontController.index());
         return created(Helpers.createResponse(jsonObject, true));
@@ -46,7 +44,7 @@ public class AccountController extends Controller{
     public Result getMail () {
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         User user = models.User.findByAuthToken(cookie.value());
-        System.out.println(user.getEmailAddress());
+        //System.out.println(user.getEmailAddress() + " Zalogowany");
         if(user.getEmailAddress().isEmpty()){
             return ok();
         }
@@ -59,4 +57,5 @@ public class AccountController extends Controller{
 
 
 
+    
 }

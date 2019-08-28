@@ -65,7 +65,7 @@ export default {
     clean(group) {
       this.$notify({ group, clean: true });
     },
-    validate(email, login, password) {
+    notify(email, login, password) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (!re.test(email) && login.length == 0 && password.length == 0) {
         this.show("foo-css", "error", "Błędne dane");
@@ -81,28 +81,35 @@ export default {
       const vm = this;
       var log = this.login;
       var pass = this.password;
-      var mail = this.email;
+      var email = this.email;
       var child = this.$refs.profile;
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-      if (pass.length != 0 && log.length != 0 && mail.length != 0 && re.test(mail)) {
+      if (
+        pass.length != 0 &&
+        log.length != 0 &&
+        email.length != 0 &&
+        re.test(email)
+      ) {
         axios
           .post("http://localhost:9000/api/user/register", {
-            emailAddress: mail,
+            emailAddress: email,
             password: pass,
             fullName: log
+          })
+          .then(response => {
+            this.show(
+              "foo-css",
+              "success",
+              "Utworzono użytkownika dla ".concat(email)
+            );
+            this.$router.push('/login');
           })
           .catch(e => {
             this.show("foo-css", "error", "Taki użytkownik już istnieje");
           });
-        this.show(
-          "foo-css",
-          "success",
-          "Utworzono użytkownika dla ".concat(this.email)
-        );
-      } else {
-        this.validate(mail, log, pass);
       }
+      this.notify(email, log, pass);
       console.log(log);
     }
   }

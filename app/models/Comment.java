@@ -19,8 +19,8 @@ public class Comment extends BaseModel {
     @JsonBackReference
     Card parentCard;
 
-    public Comment(User ownerUser, String text, Card parentCard, String name) {
-        this.ownerUser = ownerUser;
+    public Comment(User user, String text, Card parentCard, String name) {
+        this.ownerUser = user;
         this.text = text;
         this.parentCard = parentCard;
         this.userMail = ownerUser.getEmailAddress();
@@ -31,24 +31,24 @@ public class Comment extends BaseModel {
 
     }
 
-    @Nullable
-    public User getOwnerUser() {
+     @Nullable
+     public User getOwnerUser() {
 
-        return ownerUser;
-    }
+         return ownerUser;
+     }
 
-    public void setOwnerUser(@Nullable User ownerUser) {
-        this.ownerUser = ownerUser;
-    }
+     public void setOwnerUser(@Nullable User ownerUser) {
+         this.ownerUser = ownerUser;
+     }
 
-    public String getUserMail() {
+     public String getUserMail() {
 
-        return userMail;
-    }
+         return userMail;
+     }
 
-    public void setUserMail(String userMail) {
-        this.userMail = userMail;
-    }
+     public void setUserMail(String userMail) {
+         this.userMail = userMail;
+     }
 
     public String getText() {
         return text;

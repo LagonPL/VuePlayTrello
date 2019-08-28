@@ -8,6 +8,7 @@
           type="text"
           name="boardname"
           v-model="boardname"
+          ref="boardName"
           maxlength="100"
           size="25"
           placeholder="Nazwa Boardu"
@@ -23,7 +24,7 @@
           size="25"
           placeholder="URL boardu"
           class="form-control col-md-3"
-        /> -->
+        />-->
         <!-- <br />
         <div class="form-row">
           <input
@@ -36,11 +37,20 @@
             class="form-control col-md-3"
           />
           <button class="btn btn-light">Dodaj</button>
-        </div> -->
-        <br />
-        <div class="custom-control custom-checkbox col-md-3">
-          <input type="checkbox" class="custom-control-input" id="customCheck1" v-model="privateboard" />
-          <label class="custom-control-label">Prywatny?</label>
+        </div>-->
+        <br />        
+        <div class="custom-control custom-checkbox col-md-3">          
+          <input
+            type="checkbox"
+            name="isPrivate"
+            id="isPrivate"
+            ref="isPrivate"
+            class="custom-control-input"
+            v-model="privateboard"
+            true-value="true"
+            false-value="false"
+          />   
+          <label for="isPrivate" class="custom-control-label">Prywatny?</label>           
         </div>
         <br />
         <!-- <input type="submit" value="Zarejestruj się" @click="Register()" disabled> -->
@@ -59,27 +69,31 @@ export default {
     return {
       boards: [
         {
-          name: "Tab1"          
+          name: "Tab1"
         }
       ],
       boardname: "",
       boardlink: "",
       useradd: "",
-      privateboard: ""
+      privateboard: "false"
     };
   },
   methods: {
     createNewBoard() {
       const vm = this;
-      var newTitle = prompt("Podaj nazwę nowej tablicy");
+      var newTitle = this.$refs.boardName.value;
+      var privateStatus = vm.privateboard;
+      console.log(privateStatus);
       if (newTitle.length != 0) {
         axios
           .post("http://localhost:9000/api/boards/add", {
             name: newTitle,
-            listts: vm.boards["0"].listts
+            listts: vm.boards["0"].listts,
+            isPrivate: privateStatus
           })
           .then(response => {
             console.log(response);
+            this.$router.push("/boardList");
             vm.getAllBoards();
           })
           .catch(e => {

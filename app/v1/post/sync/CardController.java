@@ -21,6 +21,7 @@ public class CardController extends Controller{
             return badRequest(Helpers.createResponse(
                     "Expecting Json data", false));
         }
+        System.out.println(json.toString() + "test jsona nowej karty");
         CardViewModel tempCard =  (CardViewModel) Json.fromJson(json.get("CardViewModel"), CardViewModel.class);
         if(tempCard == null) {
             return notFound(Helpers.createResponse("Object not valid", false));
@@ -30,10 +31,7 @@ public class CardController extends Controller{
             return notFound(Helpers.createResponse("Parent element not found", false));
         }
         Card card = new Card(tempCard.description, parentListt,tempCard.row, tempCard.name);
-
-
-
-
+        System.out.println(card.name + "test nazwy nowej karty");
 
         card.save();
         JsonNode jsonObject = Json.toJson(card);

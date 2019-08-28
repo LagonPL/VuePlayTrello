@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.ebean.Ebean;
 import io.ebean.Finder;
 import play.data.validation.Constraints;
-
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -124,6 +123,18 @@ public class User extends BaseModel {
     public static User findByEmailAddressAndPassword(String emailAddress, String password) {
         // todo: verify this query is correct.  Does it need an "and" statement?
         User user = Ebean.find(User.class).where().eq("emailAddress", emailAddress.toLowerCase()).eq("shaPassword", getSha512(password)).findUnique();
+        return user;
+    }
+
+    public static User findByEmail(String emailAddress) {
+        // todo: verify this query is correct.  Does it need an "and" statement?
+        User user = Ebean.find(User.class).where().eq("emailAddress", emailAddress.toLowerCase()).findUnique();
+        return user;
+    }
+
+    public static User findById(int id) {
+        // todo: verify this query is correct.  Does it need an "and" statement?
+        User user = Ebean.find(User.class).where().eq("id", id).findUnique();
         return user;
     }
 

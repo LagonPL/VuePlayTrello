@@ -79,9 +79,10 @@ export default {
           password: pass
         })
         .then(response => {
+          this.$router.push('/boardList');
           location.reload(true);
-        //this.$forceUpdate(); 
-        this.show("foo-css", "success", "Witaj ".concat(mail));
+          //this.$forceUpdate(); 
+          this.show("foo-css", "success", "Witaj ".concat(mail));
 			  })
         .catch(e => {
           this.show("foo-css", "error", "Błędne dane");
