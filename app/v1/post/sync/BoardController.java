@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import java.text.SimpleDateFormat;  
 import java.util.Date;  
 import java.util.Locale;
+import java.util.Collections;
 
 public class BoardController extends Controller {
 
@@ -107,8 +108,6 @@ public class BoardController extends Controller {
         }
         User user = models.User.findByAuthToken(cookie.value());
         
-        int size = boards.size();
-        int numberOfRemovedBoards = 0;
         boards.removeIf((Board board) -> board.getOwnerUser().getEmailAddress() != user.getEmailAddress());
         boards2.removeIf((Board board) -> Utils.Spliter(board.getUserList(), user.id));
         boards3.removeIf((Board board) -> board.getPrivate());
@@ -198,6 +197,7 @@ public class BoardController extends Controller {
         for (EventLog log : eventLogs) {
             System.out.println(log.getText());
         }
+        Collections.reverse(eventLogs);
         JsonNode jsonObject = Json.toJson(eventLogs);
         System.out.println(jsonObject.toString());
 

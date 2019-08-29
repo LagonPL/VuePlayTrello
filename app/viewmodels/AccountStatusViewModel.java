@@ -9,15 +9,15 @@ import javax.persistence.ManyToOne;
 public class AccountStatusViewModel{
 
     public String CurrentUser;
-    public String Role;
+    public Boolean IsMember;
     public Boolean IsLogged;
     public Boolean IsOwner;
 
-    public AccountStatusViewModel(String mail, Boolean logged, Boolean IsOwner, String Role) {
+    public AccountStatusViewModel(String mail, Boolean logged, Boolean IsOwner, Boolean IsMember) {
         this.CurrentUser = mail;
         this.IsLogged = logged;
         this.IsOwner = IsOwner;
-        this.Role = Role;
+        this.IsMember = IsMember;
     }
 
     public void SetCurrentUser(String usermail){
@@ -28,12 +28,12 @@ public class AccountStatusViewModel{
         return this.CurrentUser;
     }
 
-    public void SetRole(String Role){
-        this.Role = Role;
+    public void SetIsMember(Boolean IsMember){
+        this.IsMember = IsMember;
     }
 
-    public String GetRole(){
-        return this.Role;
+    public Boolean GetIsMember(){
+        return this.IsMember;
     }
 
     public void SetIsLogged(Boolean anylogged){

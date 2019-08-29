@@ -15,31 +15,8 @@
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
           class="form-control col-md-3"
         />
-        <!-- <br /> -->
-        <!-- <input
-          type="text"
-          name="boardlink"
-          v-model="boardlink"
-          maxlength="20"
-          size="25"
-          placeholder="URL boardu"
-          class="form-control col-md-3"
-        />-->
-        <!-- <br />
-        <div class="form-row">
-          <input
-            type="text"
-            name="useradd"
-            v-model="useradd"
-            maxlength="20"
-            size="25"
-            placeholder="Dodaj użytkownika (mail)"
-            class="form-control col-md-3"
-          />
-          <button class="btn btn-light">Dodaj</button>
-        </div>-->
-        <br />        
-        <div class="custom-control custom-checkbox col-md-3">          
+        <br />
+        <div class="custom-control custom-checkbox col-md-3">
           <input
             type="checkbox"
             name="isPrivate"
@@ -49,8 +26,8 @@
             v-model="privateboard"
             true-value="true"
             false-value="false"
-          />   
-          <label for="isPrivate" class="custom-control-label">Prywatny?</label>           
+          />
+          <label for="isPrivate" class="custom-control-label">Prywatny?</label>
         </div>
         <br />
         <!-- <input type="submit" value="Zarejestruj się" @click="Register()" disabled> -->

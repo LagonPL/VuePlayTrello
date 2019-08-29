@@ -12,7 +12,10 @@ import CreateBoard from './components/CreateBoard.vue';
 import 'bootstrap';
 import 'jquery';
 import 'popper.js';
+import VueSplit from 'vue-split-panel'
 
+
+Vue.use(VueSplit);
 Vue.use(VueRouter);
 Vue.use(Notifications);
 

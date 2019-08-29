@@ -1,0 +1,370 @@
+.Overlay {
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 1000;
+		overflow-y: scroll;
+	}
+	
+	.CardDetails {
+		background-color: #EDEFF0;
+		border-radius: 3px;
+		height: 80%;
+		width: 80%;
+		padding: 1%;
+		display: table;
+		margin: auto;
+	}
+	
+	.CardDetails_LeftSide {
+		float: left;
+		width: 60%;
+		display: table-column;
+		height: 100%;
+	}
+		.CardDetails_LeftSide .Block {
+			margin: 5px;
+		}
+		.CardDetails_LeftSide .BlockTitle {
+			color: #4d4d4d;
+			font-size: 16px;
+			line-height: 24px;
+			margin-bottom: 0px;
+		}
+		.CardDetails_LeftSide .CardTitle {
+			background-color: transparent;
+			width: 100%;
+			min-height: 18px;
+			display: block;
+			border-radius: 3px;
+			font-size: 18px;
+			font-weight: 700;
+			line-height: 30px;
+			outline: none;
+			border: none;
+			color: #4d4d4d;
+			padding-left: 5px;
+		}
+			.CardDetails_LeftSide .CardTitle:focus {
+				background-color: white;
+			}
+		.CardDetails_LeftSide .CardSubtitle {
+			color: #959DA1;
+		}
+		.CardDetails_LeftSide .DescriptionTitle {
+			color: #959DA1;
+		}
+		.CardDetails_LeftSide .DescriptionContent {
+			color: #4d4d4d;
+			width: 100%;
+			cursor: pointer;
+		}
+		.CardDetails_LeftSide .DescriptionTextArea {
+			background-color: #E2E4E6;
+			color: #959DA1;
+			border-radius: 3px;
+			border-color: silver;
+			width: 100%;
+			min-height: 50px;
+			resize: none;
+		}
+		.CardDetails_LeftSide .DescriptionActionButtonsDiv {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: flex-start;
+		}
+		.CardDetails_LeftSide .Button {
+			background-color: #E2E4E6;
+			cursor: pointer;
+			display: block;
+			height: 2pc;
+			max-width: 300px;
+			position: relative;
+			user-select: none;
+			white-space: nowrap;
+			color: #444444;
+			font-size: 14px;
+		}
+			.CardDetails_LeftSide .Button:hover {
+				background-color: #CDD2D4;
+				color: #4C4C4C;
+			}
+			.CardDetails_LeftSide .Button:active {
+				background-color: #838C91;
+				color: white;
+			}
+		.CardDetails_LeftSide .ButtonSave {
+			background-color: #5aac44;
+			color: white;
+			font-size: 14px;
+			font-weight: bold;
+		}
+			.CardDetails_LeftSide .ButtonSave:hover {
+				background-color: #519839;
+				color: white;
+			}
+			.CardDetails_LeftSide .ButtonSave:active {
+				background-color: #49852E;
+			}
+		.CardDetails_LeftSide .ButtonCancel {
+			background-color: transparent;
+			color: #959DA1;
+			border: none;
+		}
+			.CardDetails_LeftSide .ButtonCancel:hover {
+				background-color: transparent;
+				color: #4C4C4C;
+				border: none;
+			}
+		.CardDetails_LeftSide .CommentTextArea {
+			background-color: white;
+			color: #4d4d4d;
+			border-radius: 3px;
+			border-color: silver;
+			width: 100%;
+			min-height: 50px;
+			resize: none;
+		}
+		.CardDetails_LeftSide .Comment {
+			margin-left: 5px;
+		}
+		.CardDetails_LeftSide .CommentAuthor {
+			color: #4d4d4d;
+			font-size: 14px;
+			line-height: 24px;
+			margin-bottom: 0px;
+			margin-top: 0px;
+		}
+		.CardDetails_LeftSide .CommentContent {
+			width: auto;
+			height: auto;
+			margin-bottom: 0px;
+		}
+		.CardDetails_LeftSide .CommentButton {
+			background-color: transparent;
+			color: #959DA1;
+			border: none;
+			text-decoration: underline;
+		}
+			.CardDetails_LeftSide .CommentButton:hover {
+				color: #4C4C4C;
+			}
+		
+	.CardDetails_RightSide {
+		float: right;
+		display: table-column;
+		width: 40%;
+		height: 100%;
+		padding: 5px;
+		box-sizing: border-box;
+	}
+		.CardDetails_RightSide .CloseOverlayButtonDiv {
+			margin-bottom: 5px;
+		}
+			.CardDetails_RightSide .CloseOverlayButtonDiv #closeOverlayButton {
+				float: right;
+				background-color: transparent;
+				font-size: 20px;
+				color: #959DA1;
+			}
+			.CardDetails_RightSide .CloseOverlayButtonDiv #closeOverlayButton:hover {
+				color: #4C4C4C;
+			}
+		.CardDetails_RightSide .Title {
+			color: #4d4d4d;
+			font-size: 16px;
+			line-height: 24px; 
+		}
+		.CardDetails_RightSide .ActionButton {
+			background-color: #E2E4E6;
+			cursor: pointer;
+			display: block;
+			height: 2pc;
+			position: relative;
+			user-select: none;
+			white-space: nowrap;
+			color: #444444;
+			width: 100%;
+			text-align: left; 
+			font-size: 14px;
+			font-weight: bold;
+			margin: 3px;
+		}
+		.CardDetails_RightSide .ActionButton:hover {
+			background-color: #CDD2D4;
+			color: #4C4C4C;
+		}
+	
+	#fav-btn {
+		background-color: transparent;
+		font-size: 22px;
+		padding: 0 10px;
+		margin: 0;
+		color: white;
+		border-radius: 3px;
+	}
+	
+	#fav-btn:hover {
+		background-color: #026AA7;
+	}
+
+	p {
+		margin: 0;
+		padding: 3px 5px;
+	}
+	
+	#board {
+		padding: 5px;
+		background-color: #0079BF;
+	}
+	
+	#boardTitle {
+	    font-size: 18px;
+		font-weight: 700;
+		line-height: 30px;
+		color: #f6f6f6;
+		padding: 0 10px;
+		background-color: transparent;
+		border-radius: 3px;
+		margin-right: 10px;
+	}
+	
+	#boardTitle:hover {
+		background-color: #026AA7;
+	}
+	
+	#list {
+		display: inline-block;
+		background-color: #E2E4E6;
+		border-style: none;
+		border-radius: 3px;
+		padding: 5px;
+		margin: 5px;
+		vertical-align: top;
+		height: 100%;
+		width: 270px;
+		white-space: nowrap;
+		box-sizing: border-box;
+		color: #4d4d4d;
+	}
+	
+	.listName {
+		margin-left: 0px;
+		font-weight: bold;
+	}
+	
+	#card {
+		font-weight: normal;
+		font-style: italic;
+		background-color: white;
+		border-style: none;
+		border-radius: 2px;
+		padding: 6px 6px 2px 8px;
+		margin: 4px 2px 6px 4px;
+		max-width: 300px;
+		min-height: 20px;
+		position: relative;
+		color: #4d4d4d;
+	}
+	
+	#card:hover {
+		background-color: #EDEFF0;
+	}
+	
+	#addCardButton {
+		background-color: transparent;
+		color: #838c91;
+		width: 100%;
+		text-align: left;
+	}
+	
+	#addCardButton:hover {
+		background-color: #CDD2D4;
+		color: #818384;
+		text-decoration: underline;
+	}
+	
+	#addListButton {
+		display: inline-block;
+		background-color: rgba(0,0,0,.1);
+		border-radius: 2px;
+		padding: 5px;
+		margin: 5px;
+		vertical-align: top;
+		height: 100%;
+		width: 270px;
+		white-space: nowrap;
+		box-sizing: border-box;
+		color: rgba(255,255,255,.7);
+		text-align: left;
+	}
+	
+	#addListButton:hover {
+		background-color: rgba(0,0,0,.3);
+	}
+
+	.listButton {
+		background-color: transparent;
+		float: right;
+	}
+	
+	.listButton:hover {
+		background-color: #CDD2D4;
+		text-decoration: underline;
+	}
+	
+	#deleteListButton {
+		color: maroon;	
+	}
+	
+	#deleteListButton:hover {
+		color: red;
+	}
+	
+	#renameListButton {
+		color: #838c91;	
+	}
+	
+	#renameListButton:hover {
+		color: #818384;
+	}
+	
+	.cardButton {
+		background-color: transparent;
+		width: 100%;
+		text-align: left;
+		padding: 0;
+		color: #4d4d4d;
+	}
+	
+	#editCardButton {
+		background-color: transparent;
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+		display: none;
+		color: #4d4d4d;
+	}
+	
+	#card:hover > #editCardButton {
+		display: inline;
+	}
+	.horizontal-scrollbar-demo {
+  width: 100%;
+  height: 300px;
+  border: 1px solid #ccc;
+  article {
+    padding: 15px;
+  }
+  p {
+    margin-top: 10px;
+  }
+}

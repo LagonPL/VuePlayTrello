@@ -62,6 +62,11 @@ create table task (
 );
 
 create table team (
+  id                            integer auto_increment not null,
+  name                          varchar(255),
+  owner_user_id                 integer not null,
+  user_list                     varchar(255),
+  constraint pk_team primary key (id)
 );
 
 create table user (
