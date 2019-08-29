@@ -55,6 +55,7 @@ POST    /api/user/register    v1.post.sync.AccountController.create()
 GET    /api/user/getList    v1.post.sync.AccountController.getList()
 POST    /api/user/login     controllers.SecurityController.login()
 GET     /api/user/username  v1.post.sync.AccountController.getMail()
+GET     /api/user/role/:id  v1.post.sync.AccountController.getStatus(id : Integer)
 GET     /api/user/logout  controllers.SecurityController.logout()
 
 # Map static resources from the /public folder to the /assets URL path

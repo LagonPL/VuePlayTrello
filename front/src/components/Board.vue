@@ -134,7 +134,7 @@ export default {
 		}
 	},
 	mounted: function() {
-	this.getUsername();
+	this.getUsername(this.$root.boards[this.$route.params.id - 1].id);
 	this.getEventLog(this.$root.boards[this.$route.params.id - 1].id);
   	},
 	computed: {
@@ -155,8 +155,8 @@ export default {
 		}
 	},
 	methods: {
-		async getUsername() {
-			axios.get("http://localhost:9000/api/user/username")
+		getUsername: function(boardId) {
+			axios.get('http://localhost:9000/api/user/role/' + boardId)
     		.then(response => {
           		console.log(response.data.body);
           		this.status = response.data.body;

@@ -8,9 +8,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.collection.immutable.List;
-import viewmodels.CardViewModel;
-import viewmodels.Position;
-import viewmodels.ParentListtSwitchData;
+import viewmodels.*;
 import java.util.ArrayList;
 
 public class CardController extends Controller{
