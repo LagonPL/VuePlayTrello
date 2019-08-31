@@ -9,7 +9,7 @@ import io.ebean.Finder;
 import io.ebean.annotation.EnumValue;
 import io.ebean.annotation.Length;
 import play.data.format.Formats;
-
+import java.net.HttpCookie;
 import javax.annotation.Nullable;
 import javax.persistence.*;
 
@@ -39,6 +39,10 @@ public class Card extends BaseModel {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentCard")
     @JsonManagedReference
     List<Task> tasks = new ArrayList<Task>();
+    @Nullable
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentCard")
+    @JsonManagedReference
+    List<Label> labels = new ArrayList<Label>();
 
     public Card() {
         this.status = Status.VISIBLE;

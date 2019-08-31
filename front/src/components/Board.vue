@@ -96,6 +96,8 @@
 							<button id="boardTitle" @click="renameBoard()">{{currentBoard.name}}</button>
 							<button id="fav-btn" @click="deleteBoard(currentBoard.id)"><span class="glyphicon glyphicon-remove"></span></button>
 							<button id="fav-btn" @click="addUser(currentBoard.id)"><span class="glyphicon glyphicon-user"></span></button>
+							<button id="fav-btn" v-on:click='splitshow = !splitshow'><span class="glyphicon glyphicon-list-alt"></span></button>
+							<button id="fav-btn" @click="addTeam(currentBoard.id)"><span class="glyphicon glyphicon-tower"></span></button>							
 							</div>
 							<div id="list" v-for="(list, listIndex) in currentBoard.listts" v-if="list.status == 'VISIBLE'">
 								<p class="listName">
@@ -117,16 +119,18 @@
 					</scrolly>
 				</SplitArea>			
 		<SplitArea :size="25">
-			<EventLog :eventLogText="eventlog"/>
+			<EventLog :eventLogText="eventlog" id="eventlog"/>
 		</SplitArea>	
 	</Split>
 	</div>
 </template>
 
-<script>
+<script> 
 import axios from 'axios';
 import EventLog from './EventLog.vue'
 import { Scrolly, ScrollyViewport, ScrollyBar } from 'vue-scrolly';
+import Vue from 'vue';
+
 export default {
 	components: {
 		EventLog,
@@ -140,6 +144,7 @@ export default {
 			eventlog: "",
 			currentBoard: this.$root.boards[this.$route.params.id - 1],
 			showCardDetails: false,
+			splitshow: true,
 			selectedCard: {
 				name: "default name",
 				description: "sample description"
@@ -156,9 +161,10 @@ export default {
 		}
 	},
 	mounted: function() {
-	this.getUsername(this.$root.boards[this.$route.params.id - 1].id);
-	this.getEventLog(this.$root.boards[this.$route.params.id - 1].id);
-  	},
+		this.$forceUpdate();
+		this.getUsername(this.$root.boards[this.$route.params.id - 1].id);
+		this.getEventLog(this.$root.boards[this.$route.params.id - 1].id);
+	  },
 	computed: {
 		percentDone: function () {
 			if(this.selectedCard.tasks != null && this.selectedCard.tasks.length > 0) {
@@ -188,8 +194,10 @@ export default {
 		getEventLog: function(boardId) {
 			axios.get('http://localhost:9000/api/boards/eventlog/' + boardId)
     		.then(response => {
-          		console.log(response.data.body);
-          		this.eventlog = response.data.body;
+				console.log(response.data.body);		  				
+				for (var i = 0; i < response.data.body.length; i++) {
+					this.eventlog = this.eventlog.concat(response.data.body[i].text,"\r\n");		
+  				}
        		})
         	.catch(function(error) {});
     	},
@@ -207,6 +215,24 @@ export default {
 					parentBoard: boardId,
 					mail: newMail
 				  }
+				})
+				.then(response => {
+					console.log(response);
+				})
+				.catch(e => {
+				  console.log(e);
+				})
+			} else {
+				alert("Nazwa nie może być pusta!");
+			}
+		},
+		addTeam: function(boardId){
+			const vm = this;
+			var teamName = prompt("Podaj nazwę zespołu");
+			if(teamName.length != 0) {
+				axios.post('http://localhost:9000/api/team/addtoboard', {
+				  teamname : teamName,
+				  boardid :  boardId
 				})
 				.then(response => {
 					console.log(response);
@@ -316,6 +342,7 @@ export default {
 				.then(response => {
 					console.log(response);
 					vm.currentBoard.name = newName;
+					location.reload(true);
 				})
 				.catch(e => {
 				  console.log(e);
@@ -845,7 +872,6 @@ export default {
 		display: none;
 		color: #4d4d4d;
 	}
-	
 	#card:hover > #editCardButton {
 		display: inline;
 	}

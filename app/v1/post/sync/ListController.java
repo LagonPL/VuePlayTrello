@@ -4,13 +4,24 @@ import Helpers.Helpers;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Board;
 import models.Listt;
+import models.EventLog;
+import models.User;
+import controllers.*;
+import util.Utils;
+import java.net.HttpCookie;
 import play.mvc.Http;
 import viewmodels.*;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
+import java.util.Locale;
 
 public class ListController extends Controller {
+
+    public SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+    public Date date = new Date();
 
     public Result create() {
         Http.RequestBody body = request().body();
@@ -28,8 +39,13 @@ public class ListController extends Controller {
         if(parentBoard ==null) {
             return notFound(Helpers.createResponse("Board with id " + tempListt.parentBoard + "dont exist", false));
         }
+        Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
+        User userLogged = models.User.findByAuthToken(cookie.value());
+        
         Listt listt = new Listt(parentBoard, tempListt.column, tempListt.name);
+        EventLog eventLog = Utils.eLog(listt.getParentBoard().id, userLogged.getEmailAddress(), listt.name, "nowalista");
         listt.save();
+        eventLog.save();
         JsonNode jsonObject = Json.toJson(listt);
         return created(Helpers.createResponse(jsonObject, true));
     }

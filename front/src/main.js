@@ -9,6 +9,9 @@ import Login from './components/Login.vue';
 import TestBoard from './components/TestBoard.vue';
 import Register from './components/Register.vue';
 import CreateBoard from './components/CreateBoard.vue';
+import Teams from './components/Teams.vue';
+import CreateTeam from './components/CreateTeam.vue';
+import Team from './components/Team.vue';
 import 'bootstrap';
 import 'jquery';
 import 'popper.js';
@@ -54,6 +57,21 @@ const routes = [
 		path: '/createboard',
 		name: 'createboard',
 		component: CreateBoard
+	},	
+	{
+		path: '/team/:id',
+		name: 'team',
+		component: Team
+	},
+	{
+		path: '/teams',
+		name: 'teams',
+		component: Teams
+	},
+	{
+		path: '/createTeam',
+		name: 'createTeam',
+		component: CreateTeam
 	}
 ]
 

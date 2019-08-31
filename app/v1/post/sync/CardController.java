@@ -4,14 +4,27 @@ import Helpers.Helpers;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Card;
 import models.Listt;
+import models.User;
+import models.EventLog;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.collection.immutable.List;
+import play.mvc.Http;
+import java.net.HttpCookie;
 import viewmodels.*;
+import controllers.*;
+import util.Utils;
+import java.net.HttpCookie;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
+import java.util.Locale;
 
 public class CardController extends Controller{
+
+    public SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+    public Date date = new Date();
 
     public Result create() {
         JsonNode json = request().body().asJson();
@@ -29,8 +42,12 @@ public class CardController extends Controller{
             return notFound(Helpers.createResponse("Parent element not found", false));
         }
         Card card = new Card(tempCard.description, parentListt,tempCard.row, tempCard.name);
-        System.out.println(card.name + "test nazwy nowej karty");
-
+        
+        Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
+        User user = models.User.findByAuthToken(cookie.value());
+        EventLog eventLog = Utils.eLog(card.getParentListt().getParentBoard().id, user.getEmailAddress(), card.name, "nowakarta");
+        eventLog.save();
+        
         card.save();
         JsonNode jsonObject = Json.toJson(card);
         return created(Helpers.createResponse(jsonObject, true));
@@ -179,6 +196,11 @@ public class CardController extends Controller{
     public Result addComment() {
 
         return paymentRequired();
+    }
+    
+    public Result addLabel() {
+
+        return ok();
     }
 
     public Result getAll() {

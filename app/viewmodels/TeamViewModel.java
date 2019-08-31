@@ -14,14 +14,17 @@ public class TeamViewModel {
 
 
     @JsonProperty
-    public int teamId;
+    public int parentTeam;
     @JsonProperty
     public String mail;
+    @JsonProperty
+    public String name;
 
-    public TeamViewModel(int teamId, String mail) {
+    public TeamViewModel(int parentTeam, String mail, String name) {
 
-        this.teamId = teamId;
+        this.parentTeam = parentTeam;
         this.mail = mail;
+        this.name = name;
     }
 
     public TeamViewModel() {

@@ -43,6 +43,14 @@ create table event_log (
   constraint pk_event_log primary key (id)
 );
 
+create table label (
+  id                            integer auto_increment not null,
+  name                          varchar(255),
+  parent_card_id                integer,
+  color                         varchar(255),
+  constraint pk_label primary key (id)
+);
+
 create table listt (
   id                            integer auto_increment not null,
   name                          varchar(255),
@@ -63,9 +71,10 @@ create table task (
 
 create table team (
   id                            integer auto_increment not null,
-  name                          varchar(255),
+  name                          varchar(256) not null,
   owner_user_id                 integer not null,
   user_list                     varchar(255),
+  constraint uq_team_name unique (name),
   constraint pk_team primary key (id)
 );
 
@@ -90,6 +99,9 @@ create index ix_card_parent_listt_id on card (parent_listt_id);
 alter table comment add constraint fk_comment_parent_card_id foreign key (parent_card_id) references card (id) on delete restrict on update restrict;
 create index ix_comment_parent_card_id on comment (parent_card_id);
 
+alter table label add constraint fk_label_parent_card_id foreign key (parent_card_id) references card (id) on delete restrict on update restrict;
+create index ix_label_parent_card_id on label (parent_card_id);
+
 alter table listt add constraint fk_listt_parent_board_id foreign key (parent_board_id) references board (id) on delete restrict on update restrict;
 create index ix_listt_parent_board_id on listt (parent_board_id);
 
@@ -108,6 +120,9 @@ drop index if exists ix_card_parent_listt_id;
 alter table comment drop constraint if exists fk_comment_parent_card_id;
 drop index if exists ix_comment_parent_card_id;
 
+alter table label drop constraint if exists fk_label_parent_card_id;
+drop index if exists ix_label_parent_card_id;
+
 alter table listt drop constraint if exists fk_listt_parent_board_id;
 drop index if exists ix_listt_parent_board_id;
 
@@ -121,6 +136,8 @@ drop table if exists card;
 drop table if exists comment;
 
 drop table if exists event_log;
+
+drop table if exists label;
 
 drop table if exists listt;
 

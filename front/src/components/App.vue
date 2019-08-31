@@ -3,6 +3,7 @@
     <notifications group="foo-css" position="bottom left" :speed="500" />
     <div id="header">
       <router-link to="/boardList" tag="button">Tablice</router-link>
+      <router-link to="/teams" tag="button">Zespoły</router-link>
       <router-link
         to="/testBoard"
         tag="img"
@@ -63,8 +64,6 @@ export default {
         .then(response => {          
           this.$router.push('/login');
           location.reload(true);
-          //this.$forceUpdate();
-          this.show("foo-css", "success", "Żegnaj ".concat(email));
         });
     }
   }

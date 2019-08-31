@@ -44,7 +44,7 @@ public class BoardController extends Controller {
         board.setUserList("");
         board.setPrivate(Boolean.valueOf(content));
         board.save();
-        EventLog eventLog = new EventLog(board.id, formatter.format(date) + ": " + user.getEmailAddress() + " utworzyl tablice: " + board.name + ".");
+        EventLog eventLog = Utils.eLog(board.id, user.getEmailAddress(), board.name, "utworzenieboardu");
         eventLog.save();
         JsonNode jsonObject = Json.toJson(board);
         return created(Helpers.createResponse(jsonObject, true));
@@ -74,7 +74,7 @@ public class BoardController extends Controller {
         }
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         User user = models.User.findByAuthToken(cookie.value());
-        EventLog eventLog = new EventLog(oldBoard.id, formatter.format(date) + ": " + user.getEmailAddress() + " zmienil nazwe tablicy na: " + board.name + ".");
+        EventLog eventLog = Utils.eLog(oldBoard.id, user.getEmailAddress(), board.name, "zmiananazwyboardu");
         System.out.println(eventLog.getText());
         eventLog.save();
         oldBoard.name = board.name;
@@ -168,7 +168,6 @@ public class BoardController extends Controller {
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         User userLogged = models.User.findByAuthToken(cookie.value());
         if(user.getEmailAddress()==null || userLogged.getEmailAddress().equals(userViewModel.mail)){
-            System.out.println("Test if w sprawdzaniu czy mail jest taki sam jak zalogowany user\n");
             return ok();
         }
         String userid = Integer.toString(user.id);
@@ -177,12 +176,11 @@ public class BoardController extends Controller {
         }
         else{
             if(Utils.CheckIfUserAlreadyExist(parentBoard.getUserList(), user.id) || parentBoard.getOwnerUser().id.equals(user.id)){
-                System.out.println("SDAW - Test sprawdzania czy userzy już nalezą do boardu\n");
                 return ok();
             }
             parentBoard.setUserList(parentBoard.getUserList()+";"+userid);
         }
-        EventLog eventLog = new EventLog(parentBoard.id, formatter.format(date) + ": " + userLogged.getEmailAddress() + " dodal do tablicy uzytkownika: " + userViewModel.mail + ".");
+        EventLog eventLog = Utils.eLog(parentBoard.id, userLogged.getEmailAddress(), user.getEmailAddress(), "nowyuser");
         System.out.println(eventLog.getText());
         eventLog.save();
         parentBoard.save();

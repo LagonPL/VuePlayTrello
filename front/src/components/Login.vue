@@ -81,7 +81,6 @@ export default {
         .then(response => {
           this.$router.push('/boardList');
           location.reload(true);
-          //this.$forceUpdate(); 
           this.show("foo-css", "success", "Witaj ".concat(mail));
 			  })
         .catch(e => {
