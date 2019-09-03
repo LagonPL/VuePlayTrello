@@ -23,5 +23,21 @@ public class Label extends BaseModel {
         this.color = color;
     }
 
+    public Card getParentCard() {
 
+        return parentCard;
+    }
+
+    public void setParentCard(Card parentCard) {
+        this.parentCard = parentCard;
+    }
+
+    public String getColor() {
+
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }

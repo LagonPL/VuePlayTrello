@@ -95,6 +95,12 @@ public class TeamController extends Controller {
         return ok();
     }
 
+    public Result getAll(){
+        List<Team> teams = Team.find.all();
+        JsonNode jsonObject = Json.toJson(teams);
+        return ok(Helpers.createResponse(jsonObject, true));
+    }
+
     public Result getTeams() {
         List<Team> teams1 = Team.find.all();
         List<Team> teams2 = Team.find.all();

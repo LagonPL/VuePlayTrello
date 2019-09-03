@@ -107,7 +107,11 @@ public class BoardController extends Controller {
             return ok(Helpers.createResponse(jsonObject, true));
         }
         User user = models.User.findByAuthToken(cookie.value());
-        
+        if(user==null){
+            boards.removeIf((Board board) -> board.getPrivate());
+            jsonObject = Json.toJson(boards);
+            return ok(Helpers.createResponse(jsonObject, true));
+        }
         boards.removeIf((Board board) -> board.getOwnerUser().getEmailAddress() != user.getEmailAddress());
         boards2.removeIf((Board board) -> Utils.Spliter(board.getUserList(), user.id));
         boards3.removeIf((Board board) -> board.getPrivate());

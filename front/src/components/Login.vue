@@ -61,7 +61,7 @@ export default {
     getList() {
       const vm = this;
       axios
-        .get("http://localhost:9000/api/user/getList")
+        .get("http://localhost:9000/api/user/getAll")
         .then(response => {
           console.log(response.data);
           if (response.data.body != 0) {

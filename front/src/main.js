@@ -2,6 +2,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Notifications from 'vue-notification'
+import Home from './components/Home.vue';
 import App from './components/App.vue';
 import BoardList from './components/BoardList.vue';
 import Board from './components/Board.vue';
@@ -17,7 +18,6 @@ import 'jquery';
 import 'popper.js';
 import VueSplit from 'vue-split-panel'
 
-
 Vue.use(VueSplit);
 Vue.use(VueRouter);
 Vue.use(Notifications);
@@ -26,7 +26,7 @@ const routes = [
 	{
 		path: '/',
 		name: 'home',
-		component: Login
+		component: Home
 	},
 	{
 		path: '/boards/:id',

@@ -5,7 +5,7 @@
       <router-link to="/boardList" tag="button">Tablice</router-link>
       <router-link to="/teams" tag="button">Zespoły</router-link>
       <router-link
-        to="/testBoard"
+        to="/"
         tag="img"
         id="nav-logo"
         src="http://localhost:8080/src/images/header-logo.png"
@@ -137,5 +137,6 @@ body {
     right: 0px;
   }
 /* @import '../../sass/app.scss'; */
+
 @import'~bootstrap/dist/css/bootstrap.css'
 </style>

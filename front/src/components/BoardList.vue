@@ -285,5 +285,6 @@ export default {
     font-weight: 700;
     font-size: 15px;
   }
+  
 /* @import '../../sass/board-list.scss'; */
 </style>
