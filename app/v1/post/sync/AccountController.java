@@ -11,7 +11,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-
+import util.Utils;
 import java.net.HttpCookie;
 import java.util.List;
 import controllers.*;
@@ -45,18 +45,18 @@ public class AccountController extends Controller{
         AccountStatusViewModel status;
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         if(cookie==null){
-            status = new AccountStatusViewModel("", false, false, ""); 
+            status = new AccountStatusViewModel("", false, false, false); 
             JsonNode jsonObject = Json.toJson(status);
             return ok(Helpers.createResponse(jsonObject, true));
         }
         User user = models.User.findByAuthToken(cookie.value());
-        if(user.getEmailAddress()==null){
-            status = new AccountStatusViewModel("", false, false, "");  
+        if(user==null){
+            status = new AccountStatusViewModel("", false, false, false);  
             JsonNode jsonObject = Json.toJson(status);
             return ok(Helpers.createResponse(jsonObject, true));
         }
         else{
-            status = new AccountStatusViewModel(user.getEmailAddress(), true, false, ""); 
+            status = new AccountStatusViewModel(user.getEmailAddress(), true, false, false); 
             JsonNode jsonObject = Json.toJson(status);
             return ok(Helpers.createResponse(jsonObject, true));
         }
@@ -66,13 +66,13 @@ public class AccountController extends Controller{
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         AccountStatusViewModel status;
         if(cookie==null){
-            status = new AccountStatusViewModel("", false, false, ""); 
+            status = new AccountStatusViewModel("", false, false, false); 
             JsonNode jsonObject = Json.toJson(status);
             return ok(Helpers.createResponse(jsonObject, true));
         }
         User user = models.User.findByAuthToken(cookie.value());
-        if(user.getEmailAddress()==null){
-            status = new AccountStatusViewModel("", false, false, "");  
+        if(user==null){
+            status = new AccountStatusViewModel("", false, false, false);  
             JsonNode jsonObject = Json.toJson(status);
             return ok(Helpers.createResponse(jsonObject, true));
         }
@@ -86,10 +86,13 @@ public class AccountController extends Controller{
         else{
             
             if(owner.id == user.id){
-                status = new AccountStatusViewModel(user.getEmailAddress(), true, true, ""); 
+                status = new AccountStatusViewModel(user.getEmailAddress(), true, true, false); 
+            }
+            else if(Utils.CheckIfUserAlreadyExist(board.getUserList(), user.id)){
+                status = new AccountStatusViewModel(user.getEmailAddress(), true, false, true); 
             }
             else{
-                status = new AccountStatusViewModel(user.getEmailAddress(), true, false, ""); 
+                status = new AccountStatusViewModel(user.getEmailAddress(), true, false, false);
             }
             JsonNode jsonObject = Json.toJson(status);
             return ok(Helpers.createResponse(jsonObject, true));

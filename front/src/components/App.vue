@@ -63,7 +63,8 @@ export default {
         .then(response => {          
           this.$router.push('/login');
           location.reload(true);
-          //this.show("foo-css", "success", "Żegnaj ".concat(email));
+          //this.$forceUpdate();
+          this.show("foo-css", "success", "Żegnaj ".concat(email));
         });
     }
   }
@@ -71,70 +72,71 @@ export default {
 </script>
 <style>
 body {
-  margin: 0;
-  padding: 0;
-  margin-top: 40px;
-  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  letter-spacing: 0px;
-  text-transform: none;
-  word-spacing: 0px;
-  text-indent: 0px;
-  white-space: nowrap;
-  background-color: #0079bf;
-}
-
-#header {
-  position: fixed;
-  top: 0;
-  background-color: #026aa7;
-  width: 100%;
-  height: 40px;
-}
-
-button {
-  cursor: pointer;
-  border-style: none;
-}
-
-#header button {
-  height: 30px;
-  background-color: #4e97c2;
-  color: #f3f3f3;
-  border-radius: 3px;
-  line-height: 30px;
-  font-weight: bold;
-  margin: 5px 8px;
-}
-
-#header button:hover {
-  background-color: #3588b9;
-}
-
-#nav-logo {
-  vertical-align: middle;
-  position: absolute;
-  left: 45%;
-  opacity: 0.5;
-  margin: 5px 8px;
-}
-
-#nav-logo:hover {
-  opacity: 0.7;
-}
-
-#login-btn {
-  position: absolute;
-  right: 120px;
-}
-#logout-btn {
-  position: absolute;
-  right: 220px;
-}
-#register-btn {
-  position: absolute;
-  right: 0px;
-}
+    margin: 0;
+    padding: 0;
+    margin-top: 40px;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    letter-spacing: 0px;
+    text-transform: none;
+    word-spacing: 0px;
+    text-indent: 0px;
+    white-space: nowrap;
+    background-color: #0079bf;
+  }
+  
+  #header {
+    position: fixed;
+    top: 0;
+    background-color: #026aa7;
+    width: 100%;
+    height: 40px;
+  }
+  
+  button {
+    cursor: pointer;
+    border-style: none;
+  }
+  
+  #header button {
+    height: 30px;
+    background-color: #4e97c2;
+    color: #f3f3f3;
+    border-radius: 3px;
+    line-height: 30px;
+    font-weight: bold;
+    margin: 5px 8px;
+  }
+  
+  #header button:hover {
+    background-color: #3588b9;
+  }
+  
+  #nav-logo {
+    vertical-align: middle;
+    position: absolute;
+    left: 45%;
+    opacity: 0.5;
+    margin: 5px 8px;
+  }
+  
+  #nav-logo:hover {
+    opacity: 0.7;
+  }
+  
+  #login-btn {
+    position: absolute;
+    right: 120px;
+  }
+  #logout-btn {
+    position: absolute;
+    right: 220px;
+  }
+  #register-btn {
+    position: absolute;
+    right: 0px;
+  }
+/* @import '../../sass/app.scss'; */
 @import'~bootstrap/dist/css/bootstrap.css'
 </style>

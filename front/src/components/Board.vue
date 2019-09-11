@@ -1,117 +1,139 @@
 <template>
-	<div id="board-component">
-	<div class="Overlay"
-		@click.self="showCardDetails = !showCardDetails; editCardDescription = false;
-					inProgressCardDescription = defaultDescription" v-show="showCardDetails">
-		<div class="CardDetails">
-			<div id="leftSide" class="CardDetails_LeftSide">
-				<div id="cardInfoBlock" class="Block">
-					<input id="cardNameInput" class="CardTitle" v-model="selectedCard.name" @blur="renameCard($event.target.value)" type="text"></input>
-					<p class="CardSubtitle">w liście <u>{{ selectedCardListName }}</u></p>
-					<p class="DescriptionTitle" v-if="selectedCard.description.length > 0">Opis</p>
-					<p class="DescriptionContent"
-						v-if="selectedCard.description.length > 0"
-						v-show="!editCardDescription"
-						@click="editCardDescription = !editCardDescription;
-							inProgressCardDescription = selectedCard.description">
-						{{ selectedCard.description }}</p>
-					<p class="DescriptionContent"
-						v-else
-						@click="editCardDescription = !editCardDescription"
-						v-show="!editCardDescription">
-						<u>Edytuj opis...</u></p>
-					<textarea class="DescriptionTextArea"
-						v-model="inProgressCardDescription"
-						v-show="editCardDescription"
-						type="text"
-						v-on:keyup.enter.prevent="saveNewCardDescription"></textarea>
-					<div class="DescriptionActionButtonsDiv" v-show="editCardDescription">
-						<button	class="Button ButtonSave"
-						 @click="saveNewCardDescription">Zapisz</button>
-						<button class="Button ButtonCancel"
-						 @click="editCardDescription = !editCardDescription;
-							inProgressCardDescription = defaultDescription">X</button>
-					</div>
-				</div>
-				<div id="taskListBlock" class="Block">
-					<h3 class="BlockTitle">Lista zadań</h3>
-					<p class="CommentAuthor">{{ percentDone }}%</p>
-					<div class="Task" v-for="(task, index) in selectedCard.tasks">
-						<input type="checkbox" v-model="task.done" @click="switchTaskStatus(task)" v-if="this.status.IsLogged" >
-						<span style="cursor:pointer" @click="editTask(task)">{{ task.name }}</span></input>
-						<button class="Button ButtonCancel"
-						@click="deleteTask(task.id, index)"
-						style="display:inline" v-if="this.status.IsLogged">Usuń...</button>
-					</div>
-					<div class="DescriptionActionButtonsDiv">
-						<button	class="Button ButtonSave"
-						 @click="addTask" v-if="this.status.IsLogged">Dodaj</button>
-					</div>
-				</div>
-				<div id="addCommentBlock" class="Block" v-if="this.status.IsLogged">
-					<h3 class="BlockTitle">Dodaj komentarz</h3>
-					<textarea class="CommentTextArea" v-model="newCommentText" type="text"></textarea>
-					<button class="Button ButtonSave" @click="addComment">Zapisz</button>
-				</div>
-				<div id="activityBlock" class="Block">
-					<h3 class="BlockTitle">Aktywność</h3>
-					<div class="Comment" v-for="(comment, index) in selectedCard.comments">
-						<h3 class="CommentAuthor">{{ comment.userMail }}</h3>
-						<textarea class="CommentTextArea CommentContent" readonly>{{ comment.text }}</textarea>
-						<div>
-							<button class="CommentButton">Edytuj</button>
-							<span style="color: #959DA1;">-</span>
-							<button class="CommentButton" @click="deleteComment(comment.id, index)">Usuń</button>
+<div>
+	<Split style="height: 100%;" :direction="vertical">		
+				<SplitArea :size="75">
+					<scrolly class="horizontal-scrollbar-demo">
+  					<scrolly-viewport>
+					<div id="board-component">
+						<div class="Overlay"
+							@click.self="showCardDetails = !showCardDetails; editCardDescription = false;
+										inProgressCardDescription = defaultDescription" v-show="showCardDetails">
+							<div class="CardDetails">
+								<div id="leftSide" class="CardDetails_LeftSide">
+									<div id="cardInfoBlock" class="Block">
+										<input id="cardNameInput" class="CardTitle" v-model="selectedCard.name" @blur="renameCard($event.target.value)" type="text"></input>
+										<p class="CardSubtitle">w liście <u>{{ selectedCardListName }}</u></p>
+										<p class="DescriptionTitle" v-if="selectedCard.description.length > 0">Opis</p>
+										<p class="DescriptionContent"
+											v-if="selectedCard.description.length > 0"
+											v-show="!editCardDescription"
+											@click="editCardDescription = !editCardDescription;
+												inProgressCardDescription = selectedCard.description">
+											{{ selectedCard.description }}</p>
+										<p class="DescriptionContent"
+											v-else
+											@click="editCardDescription = !editCardDescription"
+											v-show="!editCardDescription">
+											<u>Edytuj opis...</u></p>
+										<textarea class="DescriptionTextArea"
+											v-model="inProgressCardDescription"
+											v-show="editCardDescription"
+											type="text"
+											v-on:keyup.enter.prevent="saveNewCardDescription"></textarea>
+										<div class="DescriptionActionButtonsDiv" v-show="editCardDescription">
+											<button	class="Button ButtonSave"
+											@click="saveNewCardDescription">Zapisz</button>
+											<button class="Button ButtonCancel"
+											@click="editCardDescription = !editCardDescription;
+												inProgressCardDescription = defaultDescription">X</button>
+										</div>
+									</div>
+									<div id="taskListBlock" class="Block">
+										<h3 class="BlockTitle">Lista zadań</h3>
+										<p class="CommentAuthor">{{ percentDone }}%</p>
+										<div class="Task" v-for="(task, index) in selectedCard.tasks">
+											<input type="checkbox" v-model="task.done" @click="switchTaskStatus(task)" v-if="this.status.IsLogged" >
+											<span style="cursor:pointer" @click="editTask(task)">{{ task.name }}</span></input>
+											<button class="Button ButtonCancel"
+											@click="deleteTask(task.id, index)"
+											style="display:inline" v-if="this.status.IsLogged">Usuń...</button>
+										</div>
+										<div class="DescriptionActionButtonsDiv">
+											<button	class="Button ButtonSave"
+											@click="addTask" v-if="this.status.IsLogged">Dodaj</button>
+										</div>
+									</div>
+									<div id="addCommentBlock" class="Block" v-if="this.status.IsLogged">
+										<h3 class="BlockTitle">Dodaj komentarz</h3>
+										<textarea class="CommentTextArea" v-model="newCommentText" type="text"></textarea>
+										<button class="Button ButtonSave" @click="addComment">Zapisz</button>
+									</div>
+									<div id="activityBlock" class="Block">
+										<h3 class="BlockTitle">Aktywność</h3>
+										<div class="Comment" v-for="(comment, index) in selectedCard.comments">
+											<h3 class="CommentAuthor">{{ comment.userMail }}</h3>
+											<textarea class="CommentTextArea CommentContent" readonly>{{ comment.text }}</textarea>
+											<div>
+												<button class="CommentButton">Edytuj</button>
+												<span style="color: #959DA1;">-</span>
+												<button class="CommentButton" @click="deleteComment(comment.id, index)">Usuń</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="rightSide" class="CardDetails_RightSide">
+									<div class="CloseOverlayButtonDiv">
+										<button id="closeOverlayButton" @click="showCardDetails = !showCardDetails; editCardDescription = false">X</button>
+									</div>
+									<h3 class="Title">Dodaj</h3>
+										<button class="ActionButton">Członkowie</button>
+										<button class="ActionButton">Etykiety</button>
+										<button class="ActionButton">Lista zadań</button>
+										<button class="ActionButton">Terminarz</button>
+										<button class="ActionButton">Załącznik</button>
+									<h3 class="Title">Działania</h3>
+										<button class="ActionButton">Przenieś</button>
+										<button class="ActionButton">Kopiuj</button>
+										<button class="ActionButton">Subskrybuj</button>
+										<button class="ActionButton" v-if="selectedCard.status == 'ARCHIVED'" @click="dearchiveCard">Przywróć</button>
+										<button class="ActionButton" v-if="selectedCard.status == 'ARCHIVED'" @click="archiveCard">Usuń</button>
+										<button class="ActionButton" v-else @click="archiveCard" disabled>Zarchiwizuj</button>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-			<div id="rightSide" class="CardDetails_RightSide">
-				<div class="CloseOverlayButtonDiv">
-					<button id="closeOverlayButton" @click="showCardDetails = !showCardDetails; editCardDescription = false">X</button>
-				</div>
-				<h3 class="Title">Dodaj</h3>
-					<button class="ActionButton">Członkowie</button>
-					<button class="ActionButton">Etykiety</button>
-					<button class="ActionButton">Lista zadań</button>
-					<button class="ActionButton">Terminarz</button>
-					<button class="ActionButton">Załącznik</button>
-				<h3 class="Title">Działania</h3>
-					<button class="ActionButton">Przenieś</button>
-					<button class="ActionButton">Kopiuj</button>
-					<button class="ActionButton">Subskrybuj</button>
-					<button class="ActionButton" v-if="selectedCard.status == 'ARCHIVED'" @click="dearchiveCard">Przywróć</button>
-					<button class="ActionButton" v-if="selectedCard.status == 'ARCHIVED'" @click="archiveCard">Usuń</button>
-					<button class="ActionButton" v-else @click="archiveCard" disabled>Zarchiwizuj</button>
-			</div>
-		</div>
-	</div>
-	<div id="board">
-		<div id="board-buttons">
-		<button id="boardTitle" @click="renameBoard()">{{currentBoard.name}}</button>
-		<button id="fav-btn" @click="deleteBoard(currentBoard.id)"><span class="glyphicon glyphicon-remove"></span></button>
-		<button id="fav-btn" @click="addUser(currentBoard.id)"><span class="glyphicon glyphicon-user"></span></button>
-		</div>
-		<div id="list" v-for="(list, listIndex) in currentBoard.listts" v-if="list.status == 'VISIBLE'">
-			<p class="listName">
-				{{list.name}}
-				<button id="renameListButton" class="listButton" @click="renameList(list)">...</button>
-				<button id="deleteListButton" class="listButton" @click="archiveList(list)">X</button>
-			</p>
-			<div id="card" v-for="(card, cardIndex) in list.cards" v-if="card.status == 'VISIBLE'">
-				<button class="cardButton" @click="openCard(card, list)">{{card.name}}</button>
-				<button id="editCardButton">...</button>
-			</div>
-			<button id="addCardButton" @click="addCard(list)">Dodaj kartę...</button>
-		</div>
-	<button id="addListButton" @click="addList(currentBoard.id)">Dodaj listę...</button>
-	</div>
+						<div id="board">
+							<div id="board-buttons">
+							<button id="boardTitle" @click="renameBoard()">{{currentBoard.name}}</button>
+							<button id="fav-btn" @click="deleteBoard(currentBoard.id)"><span class="glyphicon glyphicon-remove"></span></button>
+							<button id="fav-btn" @click="addUser(currentBoard.id)"><span class="glyphicon glyphicon-user"></span></button>
+							</div>
+							<div id="list" v-for="(list, listIndex) in currentBoard.listts" v-if="list.status == 'VISIBLE'">
+								<p class="listName">
+									{{list.name}}
+									<button id="renameListButton" class="listButton" @click="renameList(list)">...</button>
+									<button id="deleteListButton" class="listButton" @click="archiveList(list)">X</button>
+								</p>
+								<div id="card" v-for="(card, cardIndex) in list.cards" v-if="card.status == 'VISIBLE'">
+									<button class="cardButton" @click="openCard(card, list)">{{card.name}}</button>
+									<button id="editCardButton">...</button>
+								</div>
+								<button id="addCardButton" @click="addCard(list)">Dodaj kartę...</button>
+							</div>
+						<button id="addListButton" @click="addList(currentBoard.id)">Dodaj listę...</button>
+						</div>	
+					</div>	
+					</scrolly-viewport>
+					<scrolly-bar axis="x"></scrolly-bar>
+					</scrolly>
+				</SplitArea>			
+		<SplitArea :size="25">
+			<EventLog :eventLogText="eventlog"/>
+		</SplitArea>	
+	</Split>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
+import EventLog from './EventLog.vue'
+import { Scrolly, ScrollyViewport, ScrollyBar } from 'vue-scrolly';
 export default {
+	components: {
+		EventLog,
+		Scrolly,
+		ScrollyViewport,
+		ScrollyBar
+  },
 	data: function () {
 		return {
 			status: "",
@@ -468,7 +490,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	.Overlay {
+.Overlay {
 		display: flex;
 		justify-content: center;
 		align-items: flex-start;
@@ -827,4 +849,9 @@ export default {
 	#card:hover > #editCardButton {
 		display: inline;
 	}
+	.horizontal-scrollbar-demo {
+		width: 100%;
+		height: 600px;
+}
+// @import '../../sass/board.scss';
 </style>
