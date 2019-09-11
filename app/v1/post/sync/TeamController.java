@@ -52,7 +52,6 @@ public class TeamController extends Controller {
 
     public Result delete(int id) {
         Team team = Team.find.byId(id);
-        System.out.println(team.name);
         team.delete();
         return ok(Helpers.createResponse("Team deleted", true));
     }
@@ -64,7 +63,6 @@ public class TeamController extends Controller {
         if (json == null) {
             return badRequest(Helpers.createResponse("Expecting Json data", false));
         }
-        System.out.println(json.toString());
         TeamViewModel teamViewModel = (TeamViewModel) Json.fromJson(json.get("TeamViewModel"), TeamViewModel.class);
         if (teamViewModel == null) {
             return notFound(Helpers.createResponse("Object not valid", false));
@@ -77,7 +75,6 @@ public class TeamController extends Controller {
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         User userLogged = models.User.findByAuthToken(cookie.value());
         if (user.getEmailAddress() == null || userLogged.getEmailAddress().equals(teamViewModel.mail)) {
-            System.out.println("Test if w sprawdzaniu czy mail jest taki sam jak zalogowany user\n");
             return ok();
         }
         String userid = Integer.toString(user.id);
@@ -85,7 +82,6 @@ public class TeamController extends Controller {
             team.setUserList(userid);
         } else {
             if (Utils.CheckIfUserAlreadyExist(team.getUserList(), user.id) || team.ownerUserId == user.id) {
-                System.out.println("SDAW - Test sprawdzania czy userzy już nalezą do boardu\n");
                 return ok();
             }
             team.setUserList(team.getUserList() + ";" + userid);
@@ -128,7 +124,6 @@ public class TeamController extends Controller {
         if (!userString.isEmpty()) {
             String[] userlist = userString.split(";");
             for (String userid : userlist) {
-                System.out.println(userString + "userzy w teamie po kolei");
                 user = User.findById(Integer.parseInt(userid));
                 users.add(user.getEmailAddress());
             }

@@ -32,7 +32,6 @@ public class CardController extends Controller{
             return badRequest(Helpers.createResponse(
                     "Expecting Json data", false));
         }
-        System.out.println(json.toString() + "test jsona nowej karty");
         CardViewModel tempCard =  (CardViewModel) Json.fromJson(json.get("CardViewModel"), CardViewModel.class);
         if(tempCard == null) {
             return notFound(Helpers.createResponse("Object not valid", false));

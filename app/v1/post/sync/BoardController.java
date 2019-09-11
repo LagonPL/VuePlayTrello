@@ -75,7 +75,6 @@ public class BoardController extends Controller {
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         User user = models.User.findByAuthToken(cookie.value());
         EventLog eventLog = Utils.eLog(oldBoard.id, user.getEmailAddress(), board.name, "zmiananazwyboardu");
-        System.out.println(eventLog.getText());
         eventLog.save();
         oldBoard.name = board.name;
         oldBoard.update();
@@ -185,23 +184,19 @@ public class BoardController extends Controller {
             parentBoard.setUserList(parentBoard.getUserList()+";"+userid);
         }
         EventLog eventLog = Utils.eLog(parentBoard.id, userLogged.getEmailAddress(), user.getEmailAddress(), "nowyuser");
-        System.out.println(eventLog.getText());
         eventLog.save();
         parentBoard.save();
         return ok();
     }
 
     public Result geteventlog(int id){
-        System.out.println(Integer.toString(id) + " Test id do geteventlog\n");
         Board board = Board.find.byId(id);
         List<EventLog> eventLogs = EventLog.find.all();
         eventLogs.removeIf((EventLog eventlog) -> eventlog.getBoardId() != board.id);
         for (EventLog log : eventLogs) {
-            System.out.println(log.getText());
         }
         Collections.reverse(eventLogs);
         JsonNode jsonObject = Json.toJson(eventLogs);
-        System.out.println(jsonObject.toString());
 
         return ok(Helpers.createResponse(jsonObject, true));
     }

@@ -28,7 +28,6 @@ public class Utils {
     public static Boolean CheckIfUserAlreadyExist(String string, int id){
         String[] parts = string.split(";");
         for (String part : parts) {
-            System.out.println(part + Integer.toString(id) + " - Test czy już jest wpisany w board");
             if(part.equals(Integer.toString(id))){
                 return true;
             }
@@ -39,7 +38,6 @@ public class Utils {
     public static String AddBoard(String user1, String user2, int owner){
         String owneruser = Integer.toString(owner);
         if(user1.isEmpty()){
-            System.out.println(user2 + "userzy w teamie?");
             List<String> list2 = new ArrayList<>(Arrays.asList(user2.split(";")));
             list2.remove(owneruser);
             for (int i=0; i<list2.size();i++) {
@@ -50,13 +48,10 @@ public class Utils {
                         user1 += ";"+list2.get(i);
                     }
                 }
-                System.out.println(user1 + "xD"+ owneruser+"xP\n");
                 return user1;
-        }//sadwqs
+        }
         List<String> list1 =  new ArrayList<>(Arrays.asList(user1.split(";")));
-        System.out.println(user1);
         List<String> list2 = new ArrayList<>(Arrays.asList(user2.split(";")));
-        System.out.println(user2);
 
         list1.addAll(list2);
         list1 = list1.stream().distinct().collect(Collectors.toList());
@@ -70,7 +65,6 @@ public class Utils {
                 user1 += ";"+list1.get(i);
             }
         }
-        System.out.println(user1+"plsdzialaj");
         return user1;
     }
 

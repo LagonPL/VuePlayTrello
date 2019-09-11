@@ -79,7 +79,6 @@ public class AccountController extends Controller{
         Board board = Board.find.byId(id);
         User owner = board.getOwnerUser();
         
-        //System.out.println(user.getEmailAddress() + " Zalogowany");
         if(user.getEmailAddress()==null){
             return ok();
         }

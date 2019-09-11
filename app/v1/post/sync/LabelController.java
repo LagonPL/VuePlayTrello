@@ -28,9 +28,7 @@ public class LabelController extends Controller {
         if (json == null) {
             return badRequest(Helpers.createResponse("Expecting Json data", false));
         }
-        System.out.println(json.toString() + " - json \n");
         LabelViewModel labelVM = (LabelViewModel) Json.fromJson(json.get("LabelViewModel"), LabelViewModel.class);
-        System.out.println(labelVM.color + " - kolor \n" + labelVM.name + " - name\n" );
         Card card = Card.find.byId(labelVM.parentCard);
         Label label =  new Label(card, labelVM.name, labelVM.color);
         label.save();
