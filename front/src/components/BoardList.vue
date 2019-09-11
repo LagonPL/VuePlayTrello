@@ -26,6 +26,7 @@
 
 <script>
 import axios from "axios";
+import Vue from 'vue';
 
 export default {
   data: function() {
@@ -211,7 +212,8 @@ export default {
 <style>
 #create-board-btn {
     background-color: #e2e4e6;
-    color: #838c91;
+    color: #000000;
+    text-align: center;
   }
   
   #create-board-btn:hover {
@@ -283,5 +285,6 @@ export default {
     font-weight: 700;
     font-size: 15px;
   }
+  
 /* @import '../../sass/board-list.scss'; */
 </style>

@@ -44,7 +44,7 @@ public class BoardController extends Controller {
         board.setUserList("");
         board.setPrivate(Boolean.valueOf(content));
         board.save();
-        EventLog eventLog = new EventLog(board.id, formatter.format(date) + ": " + user.getEmailAddress() + " utworzyl tablice: " + board.name + ".");
+        EventLog eventLog = Utils.eLog(board.id, user.getEmailAddress(), board.name, "utworzenieboardu");
         eventLog.save();
         JsonNode jsonObject = Json.toJson(board);
         return created(Helpers.createResponse(jsonObject, true));
@@ -74,8 +74,7 @@ public class BoardController extends Controller {
         }
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         User user = models.User.findByAuthToken(cookie.value());
-        EventLog eventLog = new EventLog(oldBoard.id, formatter.format(date) + ": " + user.getEmailAddress() + " zmienil nazwe tablicy na: " + board.name + ".");
-        System.out.println(eventLog.getText());
+        EventLog eventLog = Utils.eLog(oldBoard.id, user.getEmailAddress(), board.name, "zmiananazwyboardu");
         eventLog.save();
         oldBoard.name = board.name;
         oldBoard.update();
@@ -107,7 +106,11 @@ public class BoardController extends Controller {
             return ok(Helpers.createResponse(jsonObject, true));
         }
         User user = models.User.findByAuthToken(cookie.value());
-        
+        if(user==null){
+            boards.removeIf((Board board) -> board.getPrivate());
+            jsonObject = Json.toJson(boards);
+            return ok(Helpers.createResponse(jsonObject, true));
+        }
         boards.removeIf((Board board) -> board.getOwnerUser().getEmailAddress() != user.getEmailAddress());
         boards2.removeIf((Board board) -> Utils.Spliter(board.getUserList(), user.id));
         boards3.removeIf((Board board) -> board.getPrivate());
@@ -168,7 +171,6 @@ public class BoardController extends Controller {
         Http.Cookie cookie = request().cookies().get(SecurityController.AUTH_TOKEN);
         User userLogged = models.User.findByAuthToken(cookie.value());
         if(user.getEmailAddress()==null || userLogged.getEmailAddress().equals(userViewModel.mail)){
-            System.out.println("Test if w sprawdzaniu czy mail jest taki sam jak zalogowany user\n");
             return ok();
         }
         String userid = Integer.toString(user.id);
@@ -177,29 +179,24 @@ public class BoardController extends Controller {
         }
         else{
             if(Utils.CheckIfUserAlreadyExist(parentBoard.getUserList(), user.id) || parentBoard.getOwnerUser().id.equals(user.id)){
-                System.out.println("SDAW - Test sprawdzania czy userzy już nalezą do boardu\n");
                 return ok();
             }
             parentBoard.setUserList(parentBoard.getUserList()+";"+userid);
         }
-        EventLog eventLog = new EventLog(parentBoard.id, formatter.format(date) + ": " + userLogged.getEmailAddress() + " dodal do tablicy uzytkownika: " + userViewModel.mail + ".");
-        System.out.println(eventLog.getText());
+        EventLog eventLog = Utils.eLog(parentBoard.id, userLogged.getEmailAddress(), user.getEmailAddress(), "nowyuser");
         eventLog.save();
         parentBoard.save();
         return ok();
     }
 
     public Result geteventlog(int id){
-        System.out.println(Integer.toString(id) + " Test id do geteventlog\n");
         Board board = Board.find.byId(id);
         List<EventLog> eventLogs = EventLog.find.all();
         eventLogs.removeIf((EventLog eventlog) -> eventlog.getBoardId() != board.id);
         for (EventLog log : eventLogs) {
-            System.out.println(log.getText());
         }
         Collections.reverse(eventLogs);
         JsonNode jsonObject = Json.toJson(eventLogs);
-        System.out.println(jsonObject.toString());
 
         return ok(Helpers.createResponse(jsonObject, true));
     }

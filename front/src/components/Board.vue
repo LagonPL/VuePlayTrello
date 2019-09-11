@@ -53,6 +53,12 @@
 											@click="addTask" v-if="this.status.IsLogged">Dodaj</button>
 										</div>
 									</div>
+									<div id="activityBlock" class="Block">
+										<h3 class="BlockTitle">Etykiety</h3>
+										<div class="Comment" v-for="(label, index) in selectedCard.labels">
+											<h3 class="Label" v-bind:style="{ color: setColor(index)}">{{ labelName(index) }}</h3>
+										</div>
+									</div>
 									<div id="addCommentBlock" class="Block" v-if="this.status.IsLogged">
 										<h3 class="BlockTitle">Dodaj komentarz</h3>
 										<textarea class="CommentTextArea" v-model="newCommentText" type="text"></textarea>
@@ -77,7 +83,7 @@
 									</div>
 									<h3 class="Title">Dodaj</h3>
 										<button class="ActionButton">Członkowie</button>
-										<button class="ActionButton">Etykiety</button>
+										<button class="ActionButton" @click="addLabel()">Etykiety</button>
 										<button class="ActionButton">Lista zadań</button>
 										<button class="ActionButton">Terminarz</button>
 										<button class="ActionButton">Załącznik</button>
@@ -96,6 +102,8 @@
 							<button id="boardTitle" @click="renameBoard()">{{currentBoard.name}}</button>
 							<button id="fav-btn" @click="deleteBoard(currentBoard.id)"><span class="glyphicon glyphicon-remove"></span></button>
 							<button id="fav-btn" @click="addUser(currentBoard.id)"><span class="glyphicon glyphicon-user"></span></button>
+							<button id="fav-btn" v-on:click='splitshow = !splitshow'><span class="glyphicon glyphicon-list-alt"></span></button>
+							<button id="fav-btn" @click="addTeam(currentBoard.id)"><span class="glyphicon glyphicon-tower"></span></button>							
 							</div>
 							<div id="list" v-for="(list, listIndex) in currentBoard.listts" v-if="list.status == 'VISIBLE'">
 								<p class="listName">
@@ -117,16 +125,18 @@
 					</scrolly>
 				</SplitArea>			
 		<SplitArea :size="25">
-			<EventLog :eventLogText="eventlog"/>
+			<EventLog :eventLogText="eventlog" id="eventlog"/>
 		</SplitArea>	
 	</Split>
 	</div>
 </template>
 
-<script>
+<script> 
 import axios from 'axios';
 import EventLog from './EventLog.vue'
 import { Scrolly, ScrollyViewport, ScrollyBar } from 'vue-scrolly';
+import Vue from 'vue';
+
 export default {
 	components: {
 		EventLog,
@@ -136,10 +146,15 @@ export default {
   },
 	data: function () {
 		return {
+			labelColor: {
+      			type: String,
+      			default: "red"
+    		},
 			status: "",
 			eventlog: "",
 			currentBoard: this.$root.boards[this.$route.params.id - 1],
 			showCardDetails: false,
+			splitshow: true,
 			selectedCard: {
 				name: "default name",
 				description: "sample description"
@@ -152,19 +167,26 @@ export default {
 			defaultTaskName: "Dodaj element...",
 			inProgressTaskName: "",
 			newTaskName: "",
-			addUserToBoard: "Dodaj użytkownika do tablicy"
+			lastColor: "",
+			addUserToBoard: "Dodaj użytkownika do tablicy",
+			addedLabel: false,
+			addedLabelName: "",
 		}
 	},
 	mounted: function() {
-	this.getUsername(this.$root.boards[this.$route.params.id - 1].id);
-	this.getEventLog(this.$root.boards[this.$route.params.id - 1].id);
-  	},
+		//this.$forceUpdate();
+		this.getUsername(this.$root.boards[this.$route.params.id - 1].id);
+		this.getEventLog(this.$root.boards[this.$route.params.id - 1].id);
+	  },
 	computed: {
 		percentDone: function () {
 			if(this.selectedCard.tasks != null && this.selectedCard.tasks.length > 0) {
 				var nrOfTasks = this.selectedCard.tasks.length;
 				var nrOfTasksDone = 0;
+				console.log(this.selectedCard);
 				for(var i = 0; i < nrOfTasks; i++) {
+					console.log ("nr taska " + i);
+					console.log ("status taska " + this.selectedCard.tasks[i].done);
 					if(this.selectedCard.tasks[i].done == true) {
 						nrOfTasksDone++;
 					}
@@ -188,8 +210,10 @@ export default {
 		getEventLog: function(boardId) {
 			axios.get('http://localhost:9000/api/boards/eventlog/' + boardId)
     		.then(response => {
-          		console.log(response.data.body);
-          		this.eventlog = response.data.body;
+				console.log(response.data.body);		  				
+				for (var i = 0; i < response.data.body.length; i++) {
+					this.eventlog = this.eventlog.concat(response.data.body[i].text,"\r\n");		
+  				}
        		})
         	.catch(function(error) {});
     	},
@@ -207,6 +231,24 @@ export default {
 					parentBoard: boardId,
 					mail: newMail
 				  }
+				})
+				.then(response => {
+					console.log(response);
+				})
+				.catch(e => {
+				  console.log(e);
+				})
+			} else {
+				alert("Nazwa nie może być pusta!");
+			}
+		},
+		addTeam: function(boardId){
+			const vm = this;
+			var teamName = prompt("Podaj nazwę zespołu");
+			if(teamName.length != 0) {
+				axios.post('http://localhost:9000/api/team/addtoboard', {
+				  teamname : teamName,
+				  boardid :  boardId
 				})
 				.then(response => {
 					console.log(response);
@@ -316,6 +358,7 @@ export default {
 				.then(response => {
 					console.log(response);
 					vm.currentBoard.name = newName;
+					location.reload(true);
 				})
 				.catch(e => {
 				  console.log(e);
@@ -388,6 +431,7 @@ export default {
 		},
 		addComment: function() {
 			const vm = this;
+			if(vm.newCommentText.length != 0){
 			axios.post('http://localhost:9000/api/comment/add', {
 			  CommentViewModel: {
 				text: vm.newCommentText, 
@@ -401,7 +445,7 @@ export default {
 			})
 			.catch(e => {
 			  console.log(e);
-			})
+			})}
 		},
 		deleteComment: function(id, index) {
 			const vm = this;
@@ -484,8 +528,66 @@ export default {
 				console.log(error);
 			  });
 			 this.$router.push('/boardList');
-		}
-	}
+		},
+		addLabel: function() {
+			const vm = this;
+			var newName = prompt("Podaj nazwę etykiety");
+			var labelColor = prompt("Podaj nazwę koloru");
+			axios.post('http://localhost:9000/api/label/create', {
+			  LabelViewModel: {
+				name: newName, 
+				color: labelColor,
+				parentCard: vm.selectedCard.id
+			  }
+			})
+			.then(response => {
+				console.log(response);	
+				this.lastColor = labelColor;	
+				this.addedLabel = true;		
+				this.addedLabelName = newName;
+				vm.selectedCard.labels.push(response.data.body);
+			})
+			.catch(e => {
+			  console.log(e);
+			})
+		},	
+		setColor: function(id) {
+			const vm = this;
+			var color;
+			var labels;
+			labels = vm.selectedCard.labels.length;
+			if (!this.addedLabel){				
+				color = vm.selectedCard.labels[id].color;
+			}	
+			else {
+				if (id < labels-1){
+					color = vm.selectedCard.labels[id].color;
+				}
+				else{
+					color = vm.lastColor;
+				}
+			}					
+			return color;
+		},
+		labelName: function(id) {
+			const vm = this;
+			var name;
+			var labels;
+			labels = vm.selectedCard.labels.length;
+			if (!this.addedLabel){				
+				name = vm.selectedCard.labels[id].name;
+			}	
+			else {
+				if (id < labels-1){
+					name = vm.selectedCard.labels[id].name;
+				}
+				else{
+					name = vm.addedLabelName;
+				}
+			}					
+			return name;
+		}	
+  }	
 }
 </script>
 
@@ -851,7 +953,15 @@ export default {
 	}
 	.horizontal-scrollbar-demo {
 		width: 100%;
-		height: 600px;
+		height: 650px;
+		bottom: 0;
+  		right: 0;
+	article {
+		padding: 15px;
+	}
+	p {
+		margin-top: 10px;
+	}
 }
 // @import '../../sass/board.scss';
 </style>

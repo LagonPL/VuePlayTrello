@@ -35,7 +35,7 @@ public class AccountController extends Controller{
         return created(Helpers.createResponse(jsonObject, true));
     }
 
-    public Result getList() {
+    public Result getAll() {
         List<User> users = User.find.all();
         JsonNode jsonObject = Json.toJson(users);
         return ok(Helpers.createResponse(jsonObject, true));
@@ -79,7 +79,6 @@ public class AccountController extends Controller{
         Board board = Board.find.byId(id);
         User owner = board.getOwnerUser();
         
-        //System.out.println(user.getEmailAddress() + " Zalogowany");
         if(user.getEmailAddress()==null){
             return ok();
         }

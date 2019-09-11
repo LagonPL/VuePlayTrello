@@ -2,6 +2,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Notifications from 'vue-notification'
+import Home from './components/Home.vue';
 import App from './components/App.vue';
 import BoardList from './components/BoardList.vue';
 import Board from './components/Board.vue';
@@ -9,11 +10,13 @@ import Login from './components/Login.vue';
 import TestBoard from './components/TestBoard.vue';
 import Register from './components/Register.vue';
 import CreateBoard from './components/CreateBoard.vue';
+import Teams from './components/Teams.vue';
+import CreateTeam from './components/CreateTeam.vue';
+import Team from './components/Team.vue';
 import 'bootstrap';
 import 'jquery';
 import 'popper.js';
 import VueSplit from 'vue-split-panel'
-
 
 Vue.use(VueSplit);
 Vue.use(VueRouter);
@@ -23,7 +26,7 @@ const routes = [
 	{
 		path: '/',
 		name: 'home',
-		component: Login
+		component: Home
 	},
 	{
 		path: '/boards/:id',
@@ -54,6 +57,21 @@ const routes = [
 		path: '/createboard',
 		name: 'createboard',
 		component: CreateBoard
+	},	
+	{
+		path: '/team/:id',
+		name: 'team',
+		component: Team
+	},
+	{
+		path: '/teams',
+		name: 'teams',
+		component: Teams
+	},
+	{
+		path: '/createTeam',
+		name: 'createTeam',
+		component: CreateTeam
 	}
 ]
 

@@ -61,7 +61,7 @@ export default {
     getList() {
       const vm = this;
       axios
-        .get("http://localhost:9000/api/user/getList")
+        .get("http://localhost:9000/api/user/getAll")
         .then(response => {
           console.log(response.data);
           if (response.data.body != 0) {
@@ -81,7 +81,6 @@ export default {
         .then(response => {
           this.$router.push('/boardList');
           location.reload(true);
-          //this.$forceUpdate(); 
           this.show("foo-css", "success", "Witaj ".concat(mail));
 			  })
         .catch(e => {
